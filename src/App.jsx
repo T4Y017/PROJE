@@ -10,7 +10,11 @@ function App() {
 
 
   const fetchAPI = async () => {
-    const response = await axios.get("http://localhost:3000/api/users");
+    const response = await axios.get("http://localhost:3000/api/users",{
+        params: {
+          firmidfilter:123,
+        }
+    });
     setArray(response.data.users);
     console.log(response.data.users);
   }
@@ -38,9 +42,9 @@ function App() {
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
         {
-          array.map((user,id) => (
+          array.map(({id,username}) => (
             <div key={id}>
-              <p>{user}</p>
+              <p>{username}</p>
               <br></br>
             </div>
           ))
