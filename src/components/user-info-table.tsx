@@ -1,4 +1,4 @@
-import "./user_info_table.css"
+import "./user-info-table.css"
 
 export interface User_info_tableProps {
     setIsOpen: (value: boolean) => void;
@@ -7,7 +7,7 @@ export interface User_info_tableProps {
     emp: any;
 }
 
-export const User_info_table = ({setIsOpen, setFirmID, emp}) => {
+export const User_info_table: React.FC<User_info_tableProps> = ({setIsOpen, setFirmID, emp}) => {
 
     const onFirmClick = (id: number) => {
         setIsOpen(true);

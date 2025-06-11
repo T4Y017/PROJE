@@ -5,10 +5,10 @@ export default interface User {
     mail: string;
     tel: string;
     firmName: string;
-    firmId:number;
-    status:string;
-    role:string;
-    birthdate:string;
-    gender:string;
-    known_language:string;
+    firmId: number;
+    status: string;
+    role: string;
+    birthdate: string;
+    gender: string;
+    known_language: string;
 }
