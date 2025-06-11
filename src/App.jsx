@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect,useState } from 'react'
 
 import axios from 'axios'
 import './App.css'
@@ -12,11 +12,31 @@ function App(){
    const handleCloseModal = () => {
         setModalOpen(false);
     }
+    const [firmID, setFirmID] = useState("");
+    const [info, setInfo] = useState([]);
+
+    const getFirmInfo = () => {
+      axios.get("http://localhost:3000/api/firms").then((response) => {
+        console.log(response);
+        setInfo(response.data);
+      }
+      );
+    };
+    useEffect(()=>{
+      getFirmInfo();
+    },[]);
+
+    const getFirmDetails = () => {
+      const res= info.find((firm) => firm.id === firmID)
+      console.log(res,firmID);
+      return res;
+
+    }
 
   return <div className='App'>
-     <Table setIsOpen={setIsOpen} />
+     <Table setIsOpen={setIsOpen} setFirmID={setFirmID}/>
       
-     {isOpen && <Modal onClose={handleCloseModal}/>}
+     {isOpen && <Modal onClose={handleCloseModal} firm={getFirmDetails()}/>}
 
 
   </div>

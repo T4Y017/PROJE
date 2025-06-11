@@ -3,34 +3,28 @@
     padding: 0;
 }
 .table-wrapper {
-    width: 100%;
+    width: 50%;
 }
 .table {
-    display: flex;
     overflow: hidden;
     table-layout: auto;
-    border-collapse: collapse;
-    box-shadow: 0px 10px 10px #ccc;
+    box-shadow: 0px 10px 10px #ddd;
     border-radius: 10px;
-    width: 100%;
-    max-width: 80%;
     margin: auto;
     overflow-x: auto; 
-    flex-direction: column;
+    
     
 }
 .table thead{
     background-color: #ccc;
     color: #222;
-    display: flex;
     padding: 5px;
-    gap: 30px;
-    justify-content: center;
+    
+   
 }
 .table tbody{
     padding: 10px;
     margin: auto;
-
 }
 .table th{
     padding: 0.8rem;
@@ -38,6 +32,7 @@
     
 }
 .table td{
+    padding: 0.8rem;
     justify-content: center;
     max-width: 10rem;   
 }
