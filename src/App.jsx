@@ -1,13 +1,24 @@
-import { useState , useEffect} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState } from 'react'
+
 import axios from 'axios'
 import './App.css'
 import { Table } from './components/Table'
+import { Modal } from './components/Modal'
+
 
 function App(){
+  const [isOpen, setIsOpen] = useState(false)  
+
+   const handleCloseModal = () => {
+        setModalOpen(false);
+    }
+
   return <div className='App'>
-     <Table />
+     <Table setIsOpen={setIsOpen} />
+      
+     {isOpen && <Modal onClose={handleCloseModal}/>}
+
+
   </div>
 }
 
