@@ -54,7 +54,7 @@ function App(){
       return res;
 
     }
-    return (<div className='App'>
+    return (<div className='App'> 
      <User_info_table setIsOpen={setIsOpen} setFirmID={setFirmID} emp={employee} />
       
      {isFirmModalOpen && <Firm_info_modal onClose={handleCloseModal} firmRequest={getFirmDetails}/>}

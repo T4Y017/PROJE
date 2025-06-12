@@ -3,7 +3,7 @@ import "./firm_info_modal.css"
 
 export const Firm_info_modal = ({onClose,firmRequest}) => {
    
-  const firm = firmRequest(); 
+  const firm = firmRequest();  
   return (
     <div className='modal-container'>
 
@@ -30,7 +30,7 @@ export const Firm_info_modal = ({onClose,firmRequest}) => {
                     <label htmlFor="firm-tel">Telefon:</label>
                     <span>{firm.tel}</span>
                 </div>
-                <button className='btn' > Close</button>
+                <button className='btn' onClick={onClose}> Close</button>
             
         </div>
     </div>
