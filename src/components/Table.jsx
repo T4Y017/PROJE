@@ -32,7 +32,7 @@ export const Table = ({setIsOpen,setFirmID,emp}) => {
                         <td>{user.surname}</td>
                         <td>{user.mail}</td>
                         <td>{user.tel}</td>
-                        <td className="firm" onClick={() => onFirmClick(user.firmId)}>{user.firmName}</td>
+                        <td  ><button className="firm" onClick={() => onFirmClick(user.firmId)}>Firma Göster</button></td>
                     </tr>
                      ))}
                     
