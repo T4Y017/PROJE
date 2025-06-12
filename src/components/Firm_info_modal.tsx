@@ -31,24 +31,24 @@ export const Firm_info_modal = ({onClose,firmRequest}) => {
                     <span>{firm.tel}</span>
                 </div>
                 <div className='formgroup'>
-                    <label htmlFor="firm-tel">Telefon:</label>
-                    <span>{firm.tel}</span>
+                    <label htmlFor="firm-current_employee">Güncel Çalışan Sayısı:</label>
+                    <span>{firm.current_working_person}</span>
                 </div>
                 <div className='formgroup'>
-                    <label htmlFor="firm-tel">Telefon:</label>
-                    <span>{firm.tel}</span>
+                    <label htmlFor="firm-type">Firma Çeşidi:</label>
+                    <span>{firm.firmType}</span>
                 </div>
                 <div className='formgroup'>
-                    <label htmlFor="firm-tel">Telefon:</label>
-                    <span>{firm.tel}</span>
+                    <label htmlFor="firm-status">Firma Durumu:</label>
+                    <span>{firm.firmStatus}</span>
                 </div>
                 <div className='formgroup'>
-                    <label htmlFor="firm-tel">Telefon:</label>
-                    <span>{firm.tel}</span>
+                    <label htmlFor="firm-latitude">Enlem:</label>
+                    <span>{firm.latitude}</span>
                 </div>
                 <div className='formgroup'>
-                    <label htmlFor="firm-tel">Telefon:</label>
-                    <span>{firm.tel}</span>
+                    <label htmlFor="firm-longitude">Boylam:</label>
+                    <span>{firm.longitude}</span>
                 </div>
                 <button className='btn' onClick={onClose}> Close</button>
             
