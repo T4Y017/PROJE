@@ -19,13 +19,13 @@
     background-color: #ccc;
     color: #222;
     padding: 5px;
-    
+    align-items: center;
    
 }
 .table tbody{
     padding: 10px;
     margin: auto;
-    
+    align-items: center;
 }
 .table th{
     padding: 0.8rem;

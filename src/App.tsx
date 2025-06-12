@@ -4,16 +4,29 @@ import './App.css'
 import { User_info_table} from "./components/User_info_table"
 import { Firm_info_modal } from "./components/Firm_info_modal"
 function App(){
-  const [isFirmModalOpen, setIsOpen] = useState(false)  
+  const [isFirmModalOpen, setIsOpen] = useState<boolean>(false)  
 
-   const handleCloseModal = () => {
-        setModalOpen(false);
+    const handleCloseModal = () => {
+        setIsOpen(false);
     }
-    const [firmID, setFirmID] = useState("");
-    const [info, setInfo] = useState([]);
-    const [employee, setUser] = useState([]);
-  
-
+    const [firmID, setFirmID] = useState<number>();
+    interface Firm {
+      id:number;
+      firmName:string;
+      firmMail:string;
+      address:string;
+      tel:string;
+    }
+    interface User {
+      id:number;
+      username:string;
+      surname:string;
+      mail:string;
+      tel:string;
+      firmName:string;
+    }
+    const [info, setInfo] = useState<User[]>([]);
+    const [employee, setUser] = useState<Firm[]>([]);
     const getUserInfo = () => {
       axios.get("http://localhost:3000/api/users").then((resp) => {
           console.log(resp);
@@ -35,18 +48,13 @@ function App(){
     useEffect(()=>{
       getFirmInfo();
     },[]);
-
- 
-    
-
     const getFirmDetails = () => {
       const res= info.find((firm) => firm.id === firmID)
       console.log(res,firmID);
       return res;
 
     }
-
-  return (<div className='App'>
+    return (<div className='App'>
      <User_info_table setIsOpen={setIsOpen} setFirmID={setFirmID} emp={employee} />
       
      {isFirmModalOpen && <Firm_info_modal onClose={handleCloseModal} firmRequest={getFirmDetails}/>}

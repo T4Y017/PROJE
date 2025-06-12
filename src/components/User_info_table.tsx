@@ -5,7 +5,7 @@ import "./user_info_table.css"
 
 export const User_info_table = ({setIsOpen,setFirmID,emp}) => {
     
-    const onFirmClick= (id) => {
+    const onFirmClick= (id: number) => {
         setIsOpen(true);
         setFirmID(id);
     }
@@ -16,7 +16,7 @@ export const User_info_table = ({setIsOpen,setFirmID,emp}) => {
        <div className="table-wrapper">
         
             <table className="table">
-                <thead align="center" >
+                <thead >
                     <tr>
                         <th>Kullanıcı Adı</th>
                         <th>Kullanıcı Soyadı</th>
@@ -25,7 +25,7 @@ export const User_info_table = ({setIsOpen,setFirmID,emp}) => {
                         <th className="extend">İşlemler</th>
                     </tr>
                 </thead>
-                <tbody align="center">
+                <tbody >
                     {emp.map((user) => (
                         
                     <tr key={user.id}>
