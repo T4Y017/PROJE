@@ -14,6 +14,18 @@ function App(){
     }
     const [firmID, setFirmID] = useState("");
     const [info, setInfo] = useState([]);
+    const [employee, setUser] = useState([]);
+
+    const getUserInfo = () => {
+      axios.get("http://localhost:3000/api/users").then((resp) => {
+          console.log(resp);
+          setUser(resp.data.users);
+      }
+      );
+    };
+    useEffect(() => {
+      getUserInfo();
+    },[]);
 
     const getFirmInfo = () => {
       axios.get("http://localhost:3000/api/firms").then((response) => {
@@ -26,6 +38,8 @@ function App(){
       getFirmInfo();
     },[]);
 
+    
+
     const getFirmDetails = () => {
       const res= info.find((firm) => firm.id === firmID)
       console.log(res,firmID);
@@ -34,10 +48,11 @@ function App(){
     }
 
   return <div className='App'>
-     <Table setIsOpen={setIsOpen} setFirmID={setFirmID}/>
+     <Table setIsOpen={setIsOpen} setFirmID={setFirmID} emp={employee} />
       
      {isOpen && <Modal onClose={handleCloseModal} firm={getFirmDetails()}/>}
-
+      
+    
 
   </div>
 }
