@@ -1,16 +1,15 @@
 import React from 'react'
-import "./Modal.css"
+import "./firm_info_modal.css"
 
-export const Modal = ({onClose,firm}) => {
-
+export const Firm_info_modal = ({onClose,firmRequest}) => {
    
-   
+  const firm = firmRequest(); 
   return (
     <div className='modal-container'>
 
         <div className='modal'>
 
-            <form>
+           
                 <div className='formgroup'>
                     <label htmlFor="id">Id:</label>
                     <span>{firm.id}</span>
@@ -32,7 +31,7 @@ export const Modal = ({onClose,firm}) => {
                     <span>{firm.tel}</span>
                 </div>
                 <button className='btn' > Close</button>
-            </form>
+            
         </div>
     </div>
   )

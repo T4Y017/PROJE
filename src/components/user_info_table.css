@@ -12,7 +12,7 @@
     border-radius: 10px;
     margin: auto;
     overflow-x: auto; 
-    
+    width: 50%;
     
 }
 .table thead{
@@ -25,11 +25,15 @@
 .table tbody{
     padding: 10px;
     margin: auto;
+    
 }
 .table th{
     padding: 0.8rem;
     max-width: 7rem;
     
+}
+.extend {
+    width: 100%;
 }
 .table td{
     padding: 0.8rem;

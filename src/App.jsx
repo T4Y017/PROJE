@@ -1,13 +1,10 @@
 import { useEffect,useState } from 'react'
-
 import axios from 'axios'
 import './App.css'
-import { Table } from './components/Table'
-import { Modal } from './components/Modal'
-
-
+import { User_info_table} from "./components/User_info_table"
+import { Firm_info_modal } from "./components/Firm_info_modal"
 function App(){
-  const [isOpen, setIsOpen] = useState(false)  
+  const [isFirmModalOpen, setIsOpen] = useState(false)  
 
    const handleCloseModal = () => {
         setModalOpen(false);
@@ -15,6 +12,7 @@ function App(){
     const [firmID, setFirmID] = useState("");
     const [info, setInfo] = useState([]);
     const [employee, setUser] = useState([]);
+  
 
     const getUserInfo = () => {
       axios.get("http://localhost:3000/api/users").then((resp) => {
@@ -38,6 +36,7 @@ function App(){
       getFirmInfo();
     },[]);
 
+ 
     
 
     const getFirmDetails = () => {
@@ -47,14 +46,11 @@ function App(){
 
     }
 
-  return <div className='App'>
-     <Table setIsOpen={setIsOpen} setFirmID={setFirmID} emp={employee} />
+  return (<div className='App'>
+     <User_info_table setIsOpen={setIsOpen} setFirmID={setFirmID} emp={employee} />
       
-     {isOpen && <Modal onClose={handleCloseModal} firm={getFirmDetails()}/>}
-      
-    
-
-  </div>
+     {isFirmModalOpen && <Firm_info_modal onClose={handleCloseModal} firmRequest={getFirmDetails}/>}
+    </div>)
 }
 
 export default App

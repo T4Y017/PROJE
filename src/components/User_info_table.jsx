@@ -1,14 +1,15 @@
 import React from "react";
-import { useState } from "react";
-import "./Table.css"
-import { Modal } from "./Modal";
+import { useEffect,useState } from "react";
+import "./user_info_table.css"
 
-export const Table = ({setIsOpen,setFirmID,emp}) => {
+
+export const User_info_table = ({setIsOpen,setFirmID,emp}) => {
     
     const onFirmClick= (id) => {
         setIsOpen(true);
         setFirmID(id);
     }
+  
     
     return (
         
@@ -21,7 +22,7 @@ export const Table = ({setIsOpen,setFirmID,emp}) => {
                         <th>Kullanıcı Soyadı</th>
                         <th>Kullanıcı Maili</th>
                         <th>Kullanıcı Telefonu</th>
-                        <th>İşlemler</th>
+                        <th className="extend">İşlemler</th>
                     </tr>
                 </thead>
                 <tbody align="center">
@@ -32,7 +33,8 @@ export const Table = ({setIsOpen,setFirmID,emp}) => {
                         <td>{user.surname}</td>
                         <td>{user.mail}</td>
                         <td>{user.tel}</td>
-                        <td  ><button className="firm" onClick={() => onFirmClick(user.firmId)}>Firma Göster</button></td>
+                        <td><button className="firm" onClick={() => onFirmClick(user.firmId)}>Firma Göster</button></td>
+                        <td><button className="firm"> Kullanıcı Detayı</button></td>
                     </tr>
                      ))}
                     
