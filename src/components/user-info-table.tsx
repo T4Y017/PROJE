@@ -1,15 +1,18 @@
 import React from "react";
 import { useEffect,useState } from "react";
-import "./user_info_table.css"
+import "./user-info-table.css"
 
 
-export const User_info_table = ({setIsOpen,setFirmID,emp}) => {
+export const UserInfoTable = ({setIsOpen,setFirmID,emp,setUserID,setIsUserModalOpen}) => {
     
     const onFirmClick= (id: number) => {
         setIsOpen(true);
         setFirmID(id);
     }
-  
+    const onUserClick = (id: number) => {
+        setIsUserModalOpen(true);
+        setUserID(id);
+    }
     
     return (
         
@@ -22,7 +25,7 @@ export const User_info_table = ({setIsOpen,setFirmID,emp}) => {
                         <th>Kullanıcı Soyadı</th>
                         <th>Kullanıcı Maili</th>
                         <th>Kullanıcı Telefonu</th>
-                        <th className="extend">İşlemler</th>
+                        <th colSpan={2} className="extend">İşlemler</th>
                     </tr>
                 </thead>
                 <tbody >
@@ -34,7 +37,7 @@ export const User_info_table = ({setIsOpen,setFirmID,emp}) => {
                         <td>{user.mail}</td>
                         <td>{user.tel}</td>
                         <td><button className="firm" onClick={() => onFirmClick(user.firmId)}>Firma Göster</button></td>
-                        <td><button className="firm"> Kullanıcı Detayı</button></td>
+                        <td><button className="firm" onClick={() => onUserClick(user.id)}> Kullanıcı Detayı</button></td>
                     </tr>
                      ))}
                     
