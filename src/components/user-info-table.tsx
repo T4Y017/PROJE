@@ -1,9 +1,12 @@
 import React from "react";
 import { useEffect,useState } from "react";
 import "./user-info-table.css"
+import { useNavigate } from "react-router-dom";
 
 
 export const UserInfoTable = ({setIsOpen,setFirmID,emp,setUserID,setIsUserModalOpen}) => {
+
+    const navigate = useNavigate();
     
     const onFirmClick= (id: number) => {
         setIsOpen(true);
@@ -13,6 +16,7 @@ export const UserInfoTable = ({setIsOpen,setFirmID,emp,setUserID,setIsUserModalO
         setIsUserModalOpen(true);
         setUserID(id);
     }
+     
     
     return (
         
@@ -36,8 +40,8 @@ export const UserInfoTable = ({setIsOpen,setFirmID,emp,setUserID,setIsUserModalO
                         <td>{user.surname}</td>
                         <td>{user.mail}</td>
                         <td>{user.tel}</td>
-                        <td><button className="firm" onClick={() => onFirmClick(user.firmId)}>Firma Göster</button></td>
-                        <td><button className="firm" onClick={() => onUserClick(user.id)}> Kullanıcı Detayı</button></td>
+                        <td><button className="firm" onClick={() => {onFirmClick(user.firmId); navigate(`/firms/${user.firmId}`)}}>Firma Göster</button></td>
+                        <td><button className="firm" onClick={() => {onUserClick(user.id); navigate(`/users/${user.id}`)}}> Kullanıcı Detayı</button></td>
                     </tr>
                      ))}
                     

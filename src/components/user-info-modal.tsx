@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import User from '../interfaces/user'
 import './info-modal.css'
 import axios from 'axios';
-export const UserInfoModal = ({onClose,userId}) => {
+import { Link } from 'react-router-dom';
+export const UserInfoModal = ({userId}) => {
 
   const [userDetails,setUserDetails] = useState<User>({
 
@@ -27,6 +28,9 @@ export const UserInfoModal = ({onClose,userId}) => {
         setUserDetails(response.data);
         console.log(response.data);
     })
+  },[])
+  useEffect(() => {
+    axios.get(`http://localhost:3000/api/users?firmidfilter=${userDetails.firmId}`)
   },[])
 
   return (
@@ -54,7 +58,7 @@ export const UserInfoModal = ({onClose,userId}) => {
             </div>
             <div className='formgroup'>
                 <label htmlFor="firmName">Firma Adı:</label>
-                <span>{userDetails.firmName}</span>
+                <Link to={`/firms/${userDetails.firmId}`}>{userDetails.firmName}</Link>
             </div>
             <div className='formgroup'>
                 <label htmlFor="firmId">Firma Id:</label>
@@ -80,7 +84,6 @@ export const UserInfoModal = ({onClose,userId}) => {
                 <label htmlFor="known_lang">Bilinen Diller:</label>
                 <span>{userDetails.known_language}</span>
             </div>
-            <button className='btn' onClick={onClose}>Close</button>
         </div>
     </div>
   )

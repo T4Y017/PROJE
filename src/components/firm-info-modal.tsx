@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import "./info-modal.css"
 import Firm from '../interfaces/firm'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
-export const FirmInfoModal = ({onClose,firmId}) => {
+export const FirmInfoModal = ({firmId}) => {
+
 
    const [firmDetails, setFirmDetails] = useState<Firm>({
         id:0,
@@ -17,8 +19,10 @@ export const FirmInfoModal = ({onClose,firmId}) => {
         latitude:0,
         longitude:0,
    })
+   
 
    useEffect(() => {
+    
      axios.get(`http://localhost:3000/api/firms/${firmId}`).then((response) =>{
         setFirmDetails(response.data);
      })
@@ -69,7 +73,7 @@ export const FirmInfoModal = ({onClose,firmId}) => {
                     <label htmlFor="firm-longitude">Boylam:</label>
                     <span>{firmDetails.longitude}</span>
                 </div>
-                <button className='btn' onClick={onClose}> Close</button>
+                <Link to={`/users?firmidfilter=${firmDetails.id}`}><button className='btn' onClick={undefined}> Firma Çalışanlarını Göster </button></Link>
             
         </div>
     </div>
