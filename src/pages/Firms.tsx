@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { FirmInfoModal } from '../components/firm-info-modal';
-import Firm from '../interfaces/firm';
+import Firm from '../interfaces/Firm';
 
 interface Props  {
     firmId:number;

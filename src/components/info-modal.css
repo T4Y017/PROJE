@@ -15,6 +15,7 @@
     padding: 2rem;
     background-color: white;
     width: 25em;   
+    border: 1px solid #ddd;
 }
 .modal .btn{
     display: block;

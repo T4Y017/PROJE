@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import "./info-modal.css"
-import Firm from '../interfaces/firm'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import Firm from '../interfaces/Firm'
 
 export const FirmInfoModal = ({firmId}) => {
 
@@ -73,7 +73,7 @@ export const FirmInfoModal = ({firmId}) => {
                     <label htmlFor="firm-longitude">Boylam:</label>
                     <span>{firmDetails.longitude}</span>
                 </div>
-                <Link to={`/users?firmidfilter=${firmDetails.id}`}><button className='btn' onClick={undefined}> Firma Çalışanlarını Göster </button></Link>
+                <Link to={`/users?firmidfilter=${firmDetails.id}`}><button className='btn'> Firma Çalışanlarını Göster </button></Link>
             
         </div>
     </div>
