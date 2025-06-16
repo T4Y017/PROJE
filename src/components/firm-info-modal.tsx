@@ -1,35 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 import "./info-modal.css"
 
 import axios from 'axios'
 import Firm from '../interfaces/Firm'
 
-export const FirmInfoModal = ({onClose,firmId}) => {
+export const FirmInfoModal = ({onClose, firmId}) => {
 
-   const [firmDetails, setFirmDetails] = useState<Firm>({
-        id:0,
-        firmName:"none",
+    const [firmDetails, setFirmDetails] = useState<Firm>({
+        id: 0,
+        firmName: "none",
         firmMail: "none",
         address: "none",
         tel: "none",
-        current_working_person:0,
-        firmType:"none",
+        current_working_person: 0,
+        firmType: "none",
         firmStatus: "none",
-        latitude:0,
-        longitude:0,
-   })
+        latitude: 0,
+        longitude: 0,
+    })
 
-   useEffect(() => {
-     axios.get(`http://localhost:3000/api/firms/${firmId}`).then((response) =>{
-        setFirmDetails(response.data);
-     })
-   },[]);
-  return (
-    <div className='modal-container'>
+    useEffect(() => {
+        axios.get(`http://localhost:3000/api/firms/${firmId}`).then((response) => {
+            setFirmDetails(response.data);
+        })
+    }, []);
 
-        <div className='modal'>
-
-           
+    return (
+        <div className='modal-container'>
+            <div className='modal'>
                 <div className='formgroup'>
                     <label htmlFor="id">Id:</label>
                     <span>{firmDetails.id}</span>
@@ -71,8 +69,7 @@ export const FirmInfoModal = ({onClose,firmId}) => {
                     <span>{firmDetails.longitude}</span>
                 </div>
                 <button className='btn' onClick={onClose}> Close</button>
-            
+            </div>
         </div>
-    </div>
-  )
+    );
 }
