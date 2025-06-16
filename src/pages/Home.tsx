@@ -4,8 +4,7 @@ import { UserInfoTable } from '../components/user-info-table'
 import User from '../interfaces/user'
 import { FirmInfoModal } from '../components/firm-info-modal'
 import { UserInfoModal } from '../components/user-info-modal'
-import {  useNavigate } from 'react-router'
-
+import { useQuery } from '@tanstack/react-query'
 type Props = {}
 
 const Home = (props: Props) => {
