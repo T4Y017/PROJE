@@ -6,10 +6,7 @@ export const Firm_info_modal = ({onClose,firmRequest}) => {
   const firm = firmRequest();  
   return (
     <div className='modal-container'>
-
         <div className='modal'>
-
-           
                 <div className='formgroup'>
                     <label htmlFor="id">Id:</label>
                     <span>{firm.id}</span>
