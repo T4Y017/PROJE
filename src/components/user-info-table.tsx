@@ -3,15 +3,20 @@ import "./user-info-table.css"
 export interface User_info_tableProps {
     setIsOpen: (value: boolean) => void;
     setFirmID: (value: number) => void;
+    setUserID: (value: number) => void;
     // @TODO: Add emp type
     emp: any;
 }
 
-export const User_info_table: React.FC<User_info_tableProps> = ({setIsOpen, setFirmID, emp}) => {
+export const User_info_table: React.FC<User_info_tableProps> = ({setIsOpen, setFirmID, setUserID, emp}) => {
 
     const onFirmClick = (id: number) => {
         setIsOpen(true);
         setFirmID(id);
+    }
+    const onUserClick = (id: number) => {
+        setIsOpen(true);
+        setUserID(id);
     }
 
     return (
@@ -39,7 +44,9 @@ export const User_info_table: React.FC<User_info_tableProps> = ({setIsOpen, setF
                             </button>
                         </td>
                         <td>
-                            <button className="firm"> Kullanıcı Detayı</button>
+                            <button className="firm"
+                                    onClick={() => onUserClick(user.id)}> Kullanıcı Detayı
+                            </button>
                         </td>
                     </tr>
                 ))}

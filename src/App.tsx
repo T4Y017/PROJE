@@ -37,6 +37,7 @@ function App() {
         <div className='App'>
             <User_info_table setIsOpen={setIsOpen}
                              setFirmID={setFirmID}
+                             setUserID={setUserID}
                              emp={employee}/>
             {isFirmModalOpen && <FirmInfoModal onClose={handleCloseFirmModal} firmId={firmID}/>}
             {isUserModalOpen && <UserInfoModal onClose={handleCloseUserModal} userId={userID}/>}
