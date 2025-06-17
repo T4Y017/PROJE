@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Spinner from "./spinner";
 import "./user-info-table.css";
+import User from "../interfaces/user";
 
 export interface UserInfoTableProps {
     setIsOpen: (value: boolean) => void;
@@ -9,7 +10,7 @@ export interface UserInfoTableProps {
     setIsUserModalOpen: (value: boolean) => void;
 
     // @TODO: Add emp type
-    emp: any;
+    emp: User[];
 }
 
 export const UserInfoTable: React.FC<UserInfoTableProps> = ({
