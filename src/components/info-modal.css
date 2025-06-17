@@ -1,4 +1,4 @@
-.modal-container{
+.modal-container {
     position: fixed;
     z-index: 1;
     left: 0;
@@ -8,40 +8,47 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0,0,0,0.4);  
+    background-color: rgba(0, 0, 0, 0.4);
 }
-.modal{
+
+.modal {
     border-radius: 5px;
     padding: 2rem;
     background-color: white;
-    width: 25em;   
+    width: 25em;
 }
-.title{
+
+.title {
     text-align: center;
     color: blue;
 }
-.modal .btn{
+
+.modal .btn {
     display: block;
     margin: auto;
 }
+
 .btn {
     margin-top: 1rem;
     border: none;
-    background-color: #e10;
+    background-color: rgb(0, 0, 238);
     color: #fff;
-    padding:  0.5rem 1rem;
-    border-radius: 10px;    
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
     cursor: pointer;
 }
+
 .firm {
     padding: 0.15rem;
     border-radius: 10px;
 }
+
 .formgroup {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
 }
-.formgroup label{
+
+.formgroup label {
     margin-bottom: 0.2rem;
 }
