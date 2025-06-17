@@ -3,7 +3,7 @@ import axios from 'axios'
 import './App.css'
 import {FirmInfoModal} from './components/firm-info-modal'
 import User from "./interfaces/user";
-import {User_info_table} from "./components/user-info-table";
+import { UserInfoTable} from "./components/user-info-table";
 import {UserInfoModal} from "./components/user-info-modal";
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
     const getUserInfo = () => {
         axios.get("http://localhost:3000/api/users").then((resp) => {
                 console.log(resp);
+               
                 setUser(resp.data.users);
             }
         );
@@ -35,10 +36,7 @@ function App() {
 
     return (
         <div className='App'>
-            <User_info_table setIsOpen={setIsOpen}
-                             setFirmID={setFirmID}
-                             setUserID={setUserID}
-                             emp={employee}/>
+            <UserInfoTable setIsOpen={setIsOpen}  setFirmID={setFirmID} setUserID={setUserID} emp={employee} setIsUserModalOpen={setIsUserModalOpen}/>
             {isFirmModalOpen && <FirmInfoModal onClose={handleCloseFirmModal} firmId={firmID}/>}
             {isUserModalOpen && <UserInfoModal onClose={handleCloseUserModal} userId={userID}/>}
         </div>

@@ -1,8 +1,9 @@
 import {useEffect, useState} from 'react'
 import "./info-modal.css"
-
+import "./spinner.css"
 import axios from 'axios'
 import Firm from '../interfaces/Firm'
+import Spinner from './spinner'
 
 export const FirmInfoModal = ({onClose, firmId}) => {
 
@@ -19,15 +20,26 @@ export const FirmInfoModal = ({onClose, firmId}) => {
         longitude: 0,
     })
 
+    const [isLoading,setIsLoading] = useState(true);
+
     useEffect(() => {
+
+        setIsLoading(true);
+
         axios.get(`http://localhost:3000/api/firms/${firmId}`).then((response) => {
+            setTimeout(()=>{
+                setIsLoading(false)
+            },500);
             setFirmDetails(response.data);
         })
     }, []);
 
+   
     return (
         <div className='modal-container'>
+            {isLoading?<Spinner/>:
             <div className='modal'>
+                <div className='title'>Firma Detay Modalı</div>
                 <div className='formgroup'>
                     <label htmlFor="id">Id:</label>
                     <span>{firmDetails.id}</span>
@@ -70,6 +82,7 @@ export const FirmInfoModal = ({onClose, firmId}) => {
                 </div>
                 <button className='btn' onClick={onClose}> Close</button>
             </div>
+        }
         </div>
     );
 }

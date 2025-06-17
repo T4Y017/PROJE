@@ -16,6 +16,10 @@
     background-color: white;
     width: 25em;   
 }
+.title{
+    text-align: center;
+    color: blue;
+}
 .modal .btn{
     display: block;
     margin: auto;
