@@ -51,13 +51,17 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({
                                 <button
                                     style={{marginRight: 10}}
                                     className="firm"
-                                    onClick={() => onFirmClick(user.firmId)}>
+                                    onClick={() => {
+                                        onFirmClick(user.firmId);
+                                    }}                                >
                                     Firma Göster
                                 </button>
 
                                 <button
                                     className="firm"
-                                    onClick={() => onUserClick(user.id)}>
+                                    onClick={() => {
+                                        onUserClick(user.id);
+                                    }}                                >
                                     {" "}
                                     Kullanıcı Detayı
                                 </button>
