@@ -12,19 +12,8 @@ export interface UserInfoTableProps {
     emp: User[];
 }
 
-export const UserInfoTable: React.FC<UserInfoTableProps> = ({
-    setIsOpen,
-    setFirmID,
-    setUserID,
-    emp,
-    setIsUserModalOpen,
-}) => {
+export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
     const navigate = useNavigate();
-
-    const onFirmClick = (id: number) => {
-        setIsOpen(true);
-        setFirmID(id);
-    };
 
     return (
         <div className="table-wrapper">
@@ -51,7 +40,7 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({
                                         style={{ marginRight: 10 }}
                                         className="firm"
                                         onClick={() => {
-                                            onFirmClick(user.firmId);
+                                            navigate(`/firms/${user.firmId}`);
                                         }}
                                     >
                                         Firma Göster

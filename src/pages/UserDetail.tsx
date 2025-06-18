@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Spinner from "../components/spinner";
 import axios from "axios";
 import User from "../interfaces/user";
-
+import "./info-modal.css";
+import { Link } from "react-router-dom";
 interface Props {
     userId: number;
 }
@@ -66,7 +67,9 @@ const UserDetail = ({ userId }: Props) => {
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firmName">Firma Adı:</label>
-                        <span>{userDetails.firmName}</span>
+                        <Link to={`/firms/${userDetails.firmId}`}>
+                            {userDetails.firmName}
+                        </Link>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firmId">Firma Id:</label>

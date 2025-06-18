@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Home.css";
-import { FirmInfoModal } from "../components/firm-info-modal";
 import User from "../interfaces/user";
 import { UserInfoTable } from "../components/user-info-table";
 
@@ -41,9 +40,6 @@ function Home() {
                 emp={employee}
                 setIsUserModalOpen={setIsUserModalOpen}
             />
-            {isFirmModalOpen && (
-                <FirmInfoModal onClose={handleCloseFirmModal} firmId={firmID} />
-            )}
         </div>
     );
 }

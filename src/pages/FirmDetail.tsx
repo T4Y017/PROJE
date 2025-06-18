@@ -1,12 +1,13 @@
-import {useEffect, useState} from 'react'
-import "./info-modal.css"
-import "./spinner.css"
-import axios from 'axios'
-import Firm from '../interfaces/Firm'
-import Spinner from './spinner'
+import React, { useEffect, useState } from "react";
+import Spinner from "../components/spinner";
+import axios from "axios";
+import Firm from "../interfaces/Firm";
 
-export const FirmInfoModal = ({onClose, firmId}) => {
+interface Props {
+    firmId: number;
+}
 
+const FirmDetail = ({ firmId }: Props) => {
     const [firmDetails, setFirmDetails] = useState<Firm>({
         id: 0,
         firmName: "none",
@@ -38,7 +39,7 @@ export const FirmInfoModal = ({onClose, firmId}) => {
     return (
         <div className="modal-container">
             {isLoading ? (
-                <Spinner/>
+                <Spinner />
             ) : (
                 <div className="modal">
                     <div className="title">Firma Detay Modalı</div>
@@ -84,9 +85,13 @@ export const FirmInfoModal = ({onClose, firmId}) => {
                         <label htmlFor="firm-longitude">Boylam:</label>
                         <span>{firmDetails.longitude}</span>
                     </div>
-                    <button className='btn' onClick={onClose}> Close</button>
+                    <button className="btn">
+                        Firma Kullanıcılarını Göster
+                    </button>
                 </div>
             )}
         </div>
     );
 };
+
+export default FirmDetail;
