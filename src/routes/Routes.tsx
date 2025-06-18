@@ -3,6 +3,8 @@ import App from "../App";
 import Home from "../pages/Home";
 import UserDetail from "../pages/UserDetail";
 import FirmDetail from "../pages/FirmDetail";
+import Users from "../pages/Users";
+import Firms from "../pages/Firms";
 
 function UserWrapper() {
     const { userId } = useParams();
@@ -22,6 +24,8 @@ export const router = createBrowserRouter([
             { index: true, element: <Home /> },
             { path: "users/:userId", element: <UserWrapper /> },
             { path: "firms/:firmId", element: <FirmWrapper /> },
+            { path: "users", element: <Users /> },
+            { path: "firms", element: <Firms /> },
         ],
     },
 ]);

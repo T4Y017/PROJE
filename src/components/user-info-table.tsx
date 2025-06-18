@@ -3,11 +3,6 @@ import User from "../interfaces/user";
 import { useNavigate } from "react-router-dom";
 
 export interface UserInfoTableProps {
-    setIsOpen: (value: boolean) => void;
-    setFirmID: (value: number) => void;
-    setUserID: (value: number) => void;
-    setIsUserModalOpen: (value: boolean) => void;
-
     // @TODO: Add emp type
     emp: User[];
 }

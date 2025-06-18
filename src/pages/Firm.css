@@ -1,0 +1,10 @@
+.firm-table {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-place {
+    position: fixed;
+    top: 1%;
+    left: 1%;
+}

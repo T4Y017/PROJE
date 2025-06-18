@@ -16,12 +16,12 @@
     padding: 2rem;
     background-color: white;
     width: 25em;
-    border: 1px solid #ddd;
 }
 
 .title {
     text-align: center;
     color: blue;
+    padding: 5px;
 }
 
 .modal .btn {
@@ -30,7 +30,7 @@
 }
 
 .btn {
-    margin-top: 1rem;
+    margin-bottom: 3px;
     border: none;
     background-color: rgb(0, 0, 238);
     color: #fff;
@@ -46,7 +46,7 @@
 
 .formgroup {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-bottom: 1rem;
 }
 

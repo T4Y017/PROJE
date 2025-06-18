@@ -1,45 +1,17 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import "./Home.css";
-import User from "../interfaces/user";
-import { UserInfoTable } from "../components/user-info-table";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function Home() {
-    const [isFirmModalOpen, setIsOpen] = useState<boolean>(false);
-    const [isUserModalOpen, setIsUserModalOpen] = useState<boolean>(false);
-
-    const handleCloseFirmModal = () => {
-        setIsOpen(false);
-    };
-    const handleCloseUserModal = () => {
-        setIsUserModalOpen(false);
-    };
-
-    const [firmID, setFirmID] = useState<number>();
-    const [userID, setUserID] = useState<number>();
-    const [employee, setUser] = useState<User[]>([]);
-
-    const getUserInfo = () => {
-        axios.get("http://localhost:3000/api/users").then((resp) => {
-            console.log(resp);
-
-            setUser(resp.data.users);
-        });
-    };
-
-    useEffect(() => {
-        getUserInfo();
-    }, []);
+    const navigate = useNavigate();
 
     return (
         <div className="App">
-            <UserInfoTable
-                setIsOpen={setIsOpen}
-                setFirmID={setFirmID}
-                setUserID={setUserID}
-                emp={employee}
-                setIsUserModalOpen={setIsUserModalOpen}
-            />
+            <button className="btn" onClick={() => navigate("/users")}>
+                Kullanıcıları Göster
+            </button>
+            <button className="btn" onClick={() => navigate("/firms")}>
+                Firmaları Göster
+            </button>
         </div>
     );
 }
