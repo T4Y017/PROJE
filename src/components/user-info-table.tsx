@@ -1,5 +1,6 @@
 import "./user-info-table.css";
 import User from "../interfaces/user";
+import { useNavigate } from "react-router-dom";
 
 export interface UserInfoTableProps {
     setIsOpen: (value: boolean) => void;
@@ -12,63 +13,63 @@ export interface UserInfoTableProps {
 }
 
 export const UserInfoTable: React.FC<UserInfoTableProps> = ({
-                                                                setIsOpen,
-                                                                setFirmID,
-                                                                setUserID,
-                                                                emp,
-                                                                setIsUserModalOpen,
-                                                            }) => {
+    setIsOpen,
+    setFirmID,
+    setUserID,
+    emp,
+    setIsUserModalOpen,
+}) => {
+    const navigate = useNavigate();
+
     const onFirmClick = (id: number) => {
         setIsOpen(true);
         setFirmID(id);
-    };
-    const onUserClick = (id: number) => {
-        setIsUserModalOpen(true);
-        setUserID(id);
     };
 
     return (
         <div className="table-wrapper">
             <table className="table">
                 <thead>
-                <tr>
-                    <th>Kullanıcı Adı</th>
-                    <th>Kullanıcı Soyadı</th>
-                    <th>Kullanıcı Maili</th>
-                    <th>Kullanıcı Telefonu</th>
-                    <th className="extend">İşlemler</th>
-                </tr>
+                    <tr>
+                        <th>Kullanıcı Adı</th>
+                        <th>Kullanıcı Soyadı</th>
+                        <th>Kullanıcı Maili</th>
+                        <th>Kullanıcı Telefonu</th>
+                        <th className="extend">İşlemler</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {emp.map((user) => (
-                    <tr key={user.id}>
-                        <td>{user.username}</td>
-                        <td>{user.surname}</td>
-                        <td>{user.mail}</td>
-                        <td>{user.tel}</td>
-                        <td>
-                            <div style={{display: "flex"}}>
-                                <button
-                                    style={{marginRight: 10}}
-                                    className="firm"
-                                    onClick={() => {
-                                        onFirmClick(user.firmId);
-                                    }}                                >
-                                    Firma Göster
-                                </button>
+                    {emp.map((user) => (
+                        <tr key={user.id}>
+                            <td>{user.username}</td>
+                            <td>{user.surname}</td>
+                            <td>{user.mail}</td>
+                            <td>{user.tel}</td>
+                            <td>
+                                <div style={{ display: "flex" }}>
+                                    <button
+                                        style={{ marginRight: 10 }}
+                                        className="firm"
+                                        onClick={() => {
+                                            onFirmClick(user.firmId);
+                                        }}
+                                    >
+                                        Firma Göster
+                                    </button>
 
-                                <button
-                                    className="firm"
-                                    onClick={() => {
-                                        onUserClick(user.id);
-                                    }}                                >
-                                    {" "}
-                                    Kullanıcı Detayı
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                ))}
+                                    <button
+                                        className="firm"
+                                        onClick={() => {
+                                            navigate(`/users/${user.id}`);
+                                        }}
+                                    >
+                                        {" "}
+                                        Kullanıcı Detayı
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>

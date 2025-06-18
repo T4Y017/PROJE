@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
-import User from "../interfaces/user";
-import "./info-modal.css";
-import "./spinner.css";
+import React, { useEffect, useState } from "react";
+import Spinner from "../components/spinner";
 import axios from "axios";
-import Spinner from "./spinner";
+import User from "../interfaces/user";
 
-export const UserInfoModal = ({ onClose, userId }) => {
+interface Props {
+    userId: number;
+}
+
+const UserDetail = ({ userId }: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [userDetails, setUserDetails] = useState<User>({
         id: 0,
@@ -33,7 +35,7 @@ export const UserInfoModal = ({ onClose, userId }) => {
                 setUserDetails(response.data);
                 console.log(response.data);
             });
-    }, [userId]);
+    }, []);
 
     return (
         <div className="modal-container">
@@ -90,11 +92,11 @@ export const UserInfoModal = ({ onClose, userId }) => {
                         <label htmlFor="known_lang">Bilinen Diller:</label>
                         <span>{userDetails.known_language}</span>
                     </div>
-                    <button className="btn" onClick={onClose}>
-                        Close
-                    </button>
+                    <button className="btn">Close</button>
                 </div>
             )}
         </div>
     );
 };
+
+export default UserDetail;
