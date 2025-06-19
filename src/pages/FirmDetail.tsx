@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import Spinner from "../components/spinner";
 import axios from "axios";
 import Firm from "../interfaces/Firm";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     firmId: number;
 }
 
 const FirmDetail = ({ firmId }: Props) => {
+    const navigate = useNavigate();
     const [firmDetails, setFirmDetails] = useState<Firm>({
         id: 0,
         firmName: "none",
@@ -29,9 +31,8 @@ const FirmDetail = ({ firmId }: Props) => {
         axios
             .get(`http://localhost:3000/api/firms/${firmId}`)
             .then((response) => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 500);
+                setIsLoading(false);
+
                 setFirmDetails(response.data);
             });
     }, []);
@@ -42,7 +43,7 @@ const FirmDetail = ({ firmId }: Props) => {
                 <Spinner />
             ) : (
                 <div className="modal">
-                    <div className="title">Firma Detay Modalı</div>
+                    <div className="title">Firma Detay </div>
                     <div className="formgroup">
                         <label htmlFor="id">Id:</label>
                         <span>{firmDetails.id}</span>
@@ -85,9 +86,28 @@ const FirmDetail = ({ firmId }: Props) => {
                         <label htmlFor="firm-longitude">Boylam:</label>
                         <span>{firmDetails.longitude}</span>
                     </div>
-                    <button className="btn">
-                        Firma Kullanıcılarını Göster
-                    </button>
+                    <div className="formgroup">
+                        <div className="btn-place">
+                            <button
+                                className="btn"
+                                onClick={() => {
+                                    navigate("/users");
+                                }}
+                            >
+                                Geri
+                            </button>
+                        </div>
+                        <button
+                            className="btn"
+                            onClick={() => {
+                                navigate(
+                                    `/users?firmidfilter=${firmDetails.id}`
+                                );
+                            }}
+                        >
+                            Firma Kullanıcılarını Göster
+                        </button>
+                    </div>
                 </div>
             )}
         </div>
