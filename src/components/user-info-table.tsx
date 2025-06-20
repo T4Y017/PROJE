@@ -23,37 +23,45 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {emp.map((user) => (
-                        <tr key={user.id}>
-                            <td>{user.username}</td>
-                            <td>{user.surname}</td>
-                            <td>{user.mail}</td>
-                            <td>{user.tel}</td>
-                            <td>
-                                <div style={{ display: "flex" }}>
-                                    <button
-                                        style={{ marginRight: 10 }}
-                                        className="firm"
-                                        onClick={() => {
-                                            navigate(`/firms/${user.firmId}`);
-                                        }}
-                                    >
-                                        Firma Göster
-                                    </button>
+                    {emp.length > 0 ? (
+                        emp.map((user) => (
+                            <tr key={user.id}>
+                                <td>{user.username}</td>
+                                <td>{user.surname}</td>
+                                <td>{user.mail}</td>
+                                <td>{user.tel}</td>
+                                <td>
+                                    <div style={{ display: "flex" }}>
+                                        <button
+                                            style={{ marginRight: 10 }}
+                                            className="firm"
+                                            onClick={() => {
+                                                navigate(
+                                                    `/firms/${user.firmId}`
+                                                );
+                                            }}
+                                        >
+                                            Firma Göster
+                                        </button>
 
-                                    <button
-                                        className="firm"
-                                        onClick={() => {
-                                            navigate(`/users/${user.id}`);
-                                        }}
-                                    >
-                                        {" "}
-                                        Kullanıcı Detayı
-                                    </button>
-                                </div>
-                            </td>
+                                        <button
+                                            className="firm"
+                                            onClick={() => {
+                                                navigate(`/users/${user.id}`);
+                                            }}
+                                        >
+                                            {" "}
+                                            Kullanıcı Detayı
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr className="empty">
+                            <td colSpan={5}>Hiç Eleman Yok</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
         </div>

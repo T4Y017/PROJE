@@ -1,0 +1,16 @@
+.page {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+    justify-content: center;
+    align-items: center;
+}
+.btn-page {
+    padding: 5px;
+    border-radius: 10%;
+    border: 2px solid #ccc;
+    background-color: #fff;
+}
+.btn-page:focus {
+    background-color: #ddd;
+}
