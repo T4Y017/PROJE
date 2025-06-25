@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Spinner from "../components/spinner";
-import axios from "axios";
-import Firm from "../interfaces/Firm";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, AppState } from "../store/Store";
+import { fetchFirmDetailData } from "../slice/firmDetailSlice";
 
 interface Props {
     firmId: number;
@@ -10,88 +11,71 @@ interface Props {
 
 const FirmDetail = ({ firmId }: Props) => {
     const navigate = useNavigate();
-    const [firmDetails, setFirmDetails] = useState<Firm>({
-        id: 0,
-        firmName: "none",
-        firmMail: "none",
-        address: "none",
-        tel: "none",
-        current_working_person: 0,
-        firmType: "none",
-        firmStatus: "none",
-        latitude: 0,
-        longitude: 0,
-    });
 
-    const [isLoading, setIsLoading] = useState(true);
-
+    const isLoading = useSelector(
+        (state: AppState) => state.firmDetails.firmDetailTaskStatus
+    );
+    const dispatch = useDispatch<AppDispatch>();
+    const data = useSelector((state: AppState) => state.firmDetails.detail);
     useEffect(() => {
-        setIsLoading(true);
-
-        axios
-            .get(`http://localhost:3000/api/firms/${firmId}`)
-            .then((response) => {
-                setIsLoading(false);
-
-                setFirmDetails(response.data);
-            });
+        dispatch(fetchFirmDetailData({ firmId }));
     }, []);
 
     return (
         <div className="modal-container">
-            {isLoading ? (
+            {isLoading?.type === "loading" ? (
                 <Spinner />
-            ) : (
+            ) : isLoading?.type === "success" ? (
                 <div className="modal">
                     <div className="title">Firma Detay </div>
                     <div className="formgroup">
                         <label htmlFor="id">Id:</label>
-                        <span>{firmDetails.id}</span>
+                        <span>{data.id}</span>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firmname">Firma Adı:</label>
-                        <span>{firmDetails.firmName}</span>
+                        <span>{data.firmName}</span>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firmaddress">Address:</label>
-                        <span>{firmDetails.address}</span>
+                        <span>{data.address}</span>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firmmail">Mail:</label>
-                        <span>{firmDetails.firmMail}</span>
+                        <span>{data.firmMail}</span>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firm-tel">Telefon:</label>
-                        <span>{firmDetails.tel}</span>
+                        <span>{data.tel}</span>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firm-current_employee">
                             Güncel Çalışan Sayısı:
                         </label>
-                        <span>{firmDetails.current_working_person}</span>
+                        <span>{data.current_working_person}</span>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firm-type">Firma Çeşidi:</label>
-                        <span>{firmDetails.firmType}</span>
+                        <span>{data.firmType}</span>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firm-status">Firma Durumu:</label>
-                        <span>{firmDetails.firmStatus}</span>
+                        <span>{data.firmStatus}</span>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firm-latitude">Enlem:</label>
-                        <span>{firmDetails.latitude}</span>
+                        <span>{data.latitude}</span>
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firm-longitude">Boylam:</label>
-                        <span>{firmDetails.longitude}</span>
+                        <span>{data.longitude}</span>
                     </div>
                     <div className="formgroup">
                         <div className="btn-place">
                             <button
                                 className="btn"
                                 onClick={() => {
-                                    navigate("/users");
+                                    navigate(-1);
                                 }}
                             >
                                 Geri
@@ -100,15 +84,15 @@ const FirmDetail = ({ firmId }: Props) => {
                         <button
                             className="btn"
                             onClick={() => {
-                                navigate(
-                                    `/users?firmidfilter=${firmDetails.id}`
-                                );
+                                navigate(`/users?firmidfilter=${data.id}`);
                             }}
                         >
                             Firma Kullanıcılarını Göster
                         </button>
                     </div>
                 </div>
+            ) : (
+                <div style={{ color: "red" }}>{isLoading?.message}</div>
             )}
         </div>
     );
