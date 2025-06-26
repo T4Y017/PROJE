@@ -1,0 +1,70 @@
+.new-modal-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.new-modal {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 3rem;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.info {
+    position: relative;
+    width: 60%;
+    margin: auto;
+    padding: 0.25rem 0.5rem;
+    height: 30px;
+    border: 2px solid black;
+    resize: none;
+    outline: none;
+    box-sizing: border-box;
+}
+.label-modals {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.label-modals > label {
+    flex: 1;
+}
+
+.label-modals > select {
+    flex: 1.65;
+}
+
+.add {
+    display: block;
+    margin: auto;
+    margin-bottom: 3px;
+    border: none;
+    background-color: rgb(0, 0, 238);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 5px 5px #ccc;
+}
+.close {
+    align-self: flex-end;
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 100%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+}

@@ -1,12 +1,9 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
-import {
-    userSlice,
-    setLoadUserTaskStatus,
-    UserState,
-} from "../slice/userSlice";
+import { configureStore } from "@reduxjs/toolkit";
+import { userSlice, UserState } from "../slice/userSlice";
 import { firmDetailSlice, FirmDetailState } from "../slice/firmDetailSlice";
 import { firmSlice, FirmState } from "../slice/firmSlice";
 import { userDetailSlice, UserDetailState } from "../slice/userDetailSlice";
+import { newUserSlice, NewUserState } from "../slice/newUserSlice";
 
 const store = configureStore({
     reducer: {
@@ -14,6 +11,7 @@ const store = configureStore({
         firm: firmSlice.reducer,
         firmDetails: firmDetailSlice.reducer,
         userDetails: userDetailSlice.reducer,
+        newUser: newUserSlice.reducer,
     },
 });
 
@@ -22,6 +20,7 @@ export interface AppState {
     firm: FirmState;
     firmDetails: FirmDetailState;
     userDetails: UserDetailState;
+    newUser: NewUserState;
 }
 
 export default store;
