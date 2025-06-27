@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../store/Store";
 import { fetchFirmData } from "../slice/firmSlice";
 import Spinner from "../components/spinner";
+import { openFirmModal } from "../slice/newFirmSlice";
+import { NewFirmModal } from "../components/new-firm-modal";
 
 type Props = {};
 
@@ -18,6 +20,9 @@ const Firms = (props: Props) => {
     const firmPerPage = 2;
     const loadFirmTaskStatus = useSelector(
         (state: AppState) => state.firm.loadFirmStatus
+    );
+    const { isNewFirmModalOpen } = useSelector(
+        (state: AppState) => state.newFirm
     );
 
     const dispatch = useDispatch<AppDispatch>();
@@ -44,6 +49,13 @@ const Firms = (props: Props) => {
                 <Spinner />
             ) : loadFirmTaskStatus?.type === "success" ? (
                 <>
+                    <button
+                        className="btn"
+                        onClick={() => dispatch(openFirmModal())}
+                    >
+                        Yeni Firma Ekle
+                    </button>
+                    {isNewFirmModalOpen && <NewFirmModal />}
                     <div className="firm-table">
                         <div className="table-wrapper">
                             <table className="table">

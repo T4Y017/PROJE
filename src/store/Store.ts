@@ -4,6 +4,7 @@ import { firmDetailSlice, FirmDetailState } from "../slice/firmDetailSlice";
 import { firmSlice, FirmState } from "../slice/firmSlice";
 import { userDetailSlice, UserDetailState } from "../slice/userDetailSlice";
 import { newUserSlice, NewUserState } from "../slice/newUserSlice";
+import { newFirmSlice, NewFirmState } from "../slice/newFirmSlice";
 
 const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
         firmDetails: firmDetailSlice.reducer,
         userDetails: userDetailSlice.reducer,
         newUser: newUserSlice.reducer,
+        newFirm: newFirmSlice.reducer,
     },
 });
 
@@ -21,6 +23,7 @@ export interface AppState {
     firmDetails: FirmDetailState;
     userDetails: UserDetailState;
     newUser: NewUserState;
+    newFirm: NewFirmState;
 }
 
 export default store;

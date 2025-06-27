@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 300px;
 }
 .btn-place {
     position: fixed;

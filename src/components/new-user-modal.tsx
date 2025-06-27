@@ -8,7 +8,7 @@ import {
 } from "../slice/newUserSlice";
 import { useSearchParams } from "react-router-dom";
 import { fetchFirmData } from "../slice/firmSlice";
-import "./new-user-modal.css";
+import "./new-modal.css";
 
 type Props = {};
 
@@ -29,12 +29,15 @@ export default function NewUserModal({}: Props) {
     return (
         <div className="new-modal-container">
             <div className="new-modal">
-                <button
-                    className="close"
-                    onClick={() => dispatch(closeNewUserModal())}
-                >
-                    X
-                </button>
+                <div className="modal-header">
+                    <h1>Kullanıcı Ekleme Paneli</h1>
+                    <button
+                        className="close"
+                        onClick={() => dispatch(closeNewUserModal())}
+                    >
+                        X
+                    </button>
+                </div>
                 <div className="label-modals">
                     <label htmlFor="">Id:</label>
                     <input
