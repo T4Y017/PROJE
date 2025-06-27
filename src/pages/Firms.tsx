@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import "./Firm.css";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,7 @@ const Firms = (props: Props) => {
     const loadFirmTaskStatus = useSelector(
         (state: AppState) => state.firm.loadFirmStatus
     );
+
     const dispatch = useDispatch<AppDispatch>();
     const data = useSelector((state: AppState) => state.firm.firm);
     useEffect(() => {
@@ -28,7 +29,7 @@ const Firms = (props: Props) => {
     const paginate = (pageNumber) => navigate("?page=" + pageNumber);
 
     return (
-        <div>
+        <div className="firm-container">
             <div className="btn-place">
                 <button
                     className="btn"
@@ -62,7 +63,9 @@ const Firms = (props: Props) => {
                                 <tbody>
                                     {data?.firms.map((firma) => (
                                         <tr key={firma.id}>
-                                            <td>{firma.firmName}</td>
+                                            <Link to={`/firms/${firma.id}`}>
+                                                <td>{firma.firmName}</td>
+                                            </Link>
                                             <td>{firma.address}</td>
                                             <td>{firma.firmMail}</td>
                                             <td>{firma.firmType}</td>

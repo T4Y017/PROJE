@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { UserInfoTable } from "../components/user-info-table";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../store/Store";
 import { fetchUserData } from "../slice/userSlice";
 import Spinner from "../components/spinner";
+import { openNewUserModal } from "../slice/newUserSlice";
+import NewUserModal from "../components/new-user-modal";
 
 type Props = {};
 
@@ -22,6 +24,9 @@ const Users = (props: Props) => {
     );
     const dispatch = useDispatch<AppDispatch>();
     const data = useSelector((state: AppState) => state.user.user);
+    const { isNewUserModalOpen } = useSelector(
+        (state: AppState) => state.newUser
+    );
     useEffect(() => {
         dispatch(
             fetchUserData({
@@ -54,6 +59,13 @@ const Users = (props: Props) => {
                 <Spinner />
             ) : loadUserTaskStatus?.type === "success" ? (
                 <>
+                    <button
+                        className="btn"
+                        onClick={() => dispatch(openNewUserModal())}
+                    >
+                        Yeni Kullanıcı Ekle
+                    </button>
+                    {isNewUserModalOpen && <NewUserModal />}
                     <UserInfoTable emp={data?.users || []} />
                     {data && data.totalPage > 1 && (
                         <Pagination
