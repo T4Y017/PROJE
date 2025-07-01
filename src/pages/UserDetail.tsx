@@ -17,6 +17,11 @@ const UserDetail = ({ userId }: Props) => {
     );
     const dispatch = useDispatch<AppDispatch>();
     const data = useSelector((state: AppState) => state.userDetails.detail);
+    const firms = useSelector((state: AppState) => state.firm.firm?.firms);
+    const isDisabled =
+        !data.firmId ||
+        !data.firmName ||
+        !firms?.find((f) => f.id === data.firmId);
     useEffect(() => {
         dispatch(fetchUserDetailData({ userId }));
     }, []);
@@ -50,9 +55,15 @@ const UserDetail = ({ userId }: Props) => {
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firmName">Firma Adı:</label>
-                        <Link to={`/firms/${data.firmId}`}>
-                            {data.firmName}
-                        </Link>
+                        {isDisabled ? (
+                            <span className="disabled-link">
+                                {data.firmName || "Firma Yok"}
+                            </span>
+                        ) : (
+                            <Link to={`/firms/${data.firmId}`}>
+                                {data.firmName}
+                            </Link>
+                        )}
                     </div>
                     <div className="formgroup">
                         <label htmlFor="firmId">Firma Id:</label>

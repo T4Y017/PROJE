@@ -1,6 +1,16 @@
 import "./user-info-table.css";
 import User from "../interfaces/user";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, AppState } from "../store/Store";
+import { openEditModal } from "../slice/editUserSlice";
+import { EditUserModal } from "./edit-user-modal";
+import { openDeleteModal } from "../slice/deleteUserSlice";
+import { DeleteUserModal } from "./delete-user-modal";
+import { useEffect } from "react";
+import { fetchFirmData } from "../slice/firmSlice";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 
 export interface UserInfoTableProps {
     // @TODO: Add emp type
@@ -9,7 +19,19 @@ export interface UserInfoTableProps {
 
 export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
     const navigate = useNavigate();
-
+    const dispatch = useDispatch<AppDispatch>();
+    const edit = useSelector((state: AppState) => state.editUser.userData);
+    const firm = useSelector((state: AppState) => state.firm.firm?.firms);
+    const deleteUser = useSelector(
+        (state: AppState) => state.deleteUser.userData
+    );
+    const [searchParams] = useSearchParams();
+    const page = searchParams.get("page")
+        ? Number(searchParams.get("page"))
+        : 1;
+    useEffect(() => {
+        dispatch(fetchFirmData({ page }));
+    });
     return (
         <div className="table-wrapper">
             <table className="table">
@@ -31,10 +53,15 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                                 <td>{user.mail}</td>
                                 <td>{user.tel}</td>
                                 <td>
-                                    <div style={{ display: "flex" }}>
+                                    <div className="button-group">
                                         <button
-                                            style={{ marginRight: 10 }}
                                             className="firm"
+                                            disabled={
+                                                !firm ||
+                                                !firm?.some(
+                                                    (f) => f.id === user.firmId
+                                                )
+                                            }
                                             onClick={() => {
                                                 navigate(
                                                     `/firms/${user.firmId}`
@@ -53,6 +80,22 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                                             {" "}
                                             Kullanıcı Detayı
                                         </button>
+                                        <button
+                                            className="btn-edit"
+                                            onClick={() =>
+                                                dispatch(openEditModal(user))
+                                            }
+                                        >
+                                            <EditIcon />
+                                        </button>
+                                        <button
+                                            className="btn-delete"
+                                            onClick={() =>
+                                                dispatch(openDeleteModal(user))
+                                            }
+                                        >
+                                            <PersonRemoveIcon />
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -64,6 +107,8 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                     )}
                 </tbody>
             </table>
+            {deleteUser && <DeleteUserModal userId={deleteUser.id} />}
+            {edit && <EditUserModal userId={Number(edit.id)} />}
         </div>
     );
 };

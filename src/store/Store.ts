@@ -5,6 +5,14 @@ import { firmSlice, FirmState } from "../slice/firmSlice";
 import { userDetailSlice, UserDetailState } from "../slice/userDetailSlice";
 import { newUserSlice, NewUserState } from "../slice/newUserSlice";
 import { newFirmSlice, NewFirmState } from "../slice/newFirmSlice";
+import { editUserSlice, EditUserState } from "../slice/editUserSlice";
+import { editFirmSlice, EditFirmState } from "../slice/editFirmSlice";
+import { deleteUserSlice, DeleteUserState } from "../slice/deleteUserSlice";
+import {
+    deleteFirm,
+    deleteFirmSlice,
+    DeleteFirmState,
+} from "../slice/deleteFirmSlice";
 
 const store = configureStore({
     reducer: {
@@ -14,6 +22,10 @@ const store = configureStore({
         userDetails: userDetailSlice.reducer,
         newUser: newUserSlice.reducer,
         newFirm: newFirmSlice.reducer,
+        editUser: editUserSlice.reducer,
+        editFirm: editFirmSlice.reducer,
+        deleteUser: deleteUserSlice.reducer,
+        deleteFirm: deleteFirmSlice.reducer,
     },
 });
 
@@ -24,6 +36,10 @@ export interface AppState {
     userDetails: UserDetailState;
     newUser: NewUserState;
     newFirm: NewFirmState;
+    editUser: EditUserState;
+    editFirm: EditFirmState;
+    deleteUser: DeleteUserState;
+    deleteFirm: DeleteFirmState;
 }
 
 export default store;

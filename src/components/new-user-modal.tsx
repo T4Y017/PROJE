@@ -4,27 +4,45 @@ import { AppDispatch, AppState } from "../store/Store";
 import {
     addNewUser,
     closeNewUserModal,
+    resetIsUserAdded,
     setNewUser,
 } from "../slice/newUserSlice";
 import { useSearchParams } from "react-router-dom";
 import { fetchFirmData } from "../slice/firmSlice";
 import "./new-modal.css";
+import { fetchUserData } from "../slice/userSlice";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
 export default function NewUserModal({}: Props) {
     const dispatch = useDispatch<AppDispatch>();
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate(); // <-- EKLENDİ
+
     const postData = useSelector(
         (state: AppState) => state.newUser.newUserData
     );
     const page = searchParams.get("page")
         ? Number(searchParams.get("page"))
         : 1;
-    const firms = useSelector((state: AppState) => state.firm.firm);
-    useEffect(() => {
-        dispatch(fetchFirmData({ page }));
-    }, [page]);
+    const firms = useSelector((state: AppState) => state.firm.firm?.firms);
+
+    const handleAddUser = async () => {
+        const res = await dispatch(addNewUser(postData));
+        if (res.payload?.type === "success") {
+            dispatch(closeNewUserModal());
+            // Önce kullanıcı listesini son sayfa için çek
+            const result = await dispatch(fetchUserData({ page })); // 1. sayfadan başla
+            // Eğer kullanıcı ekleme başarılıysa, son sayfaya yönlendir
+            const totalPage = result.totalPage; // Son sayfa sayısını al
+
+            console.log("Total Page:", totalPage);
+            navigate(`?page=${totalPage}`);
+        } else if (res.payload?.type === "error") {
+            alert("Kullanıcı eklenemedi!!");
+        }
+    };
 
     return (
         <div className="new-modal-container">
@@ -109,7 +127,7 @@ export default function NewUserModal({}: Props) {
                         className="label-modals"
                         onChange={(e) => {
                             const selectedFirmId = e.target.value;
-                            const selectedFirm = firms?.firms.find(
+                            const selectedFirm = firms?.find(
                                 (f) => f.id === Number(selectedFirmId)
                             );
 
@@ -123,7 +141,7 @@ export default function NewUserModal({}: Props) {
                         }}
                     >
                         <option value="">Firma Seçin...</option>
-                        {firms?.firms.map((firm) => (
+                        {firms?.map((firm) => (
                             <option key={firm.id} value={firm.id}>
                                 {firm.firmName}
                             </option>
@@ -196,10 +214,7 @@ export default function NewUserModal({}: Props) {
                     ></input>
                 </div>
                 <div>
-                    <button
-                        className="add"
-                        onClick={() => dispatch(addNewUser(postData))}
-                    >
+                    <button className="add" onClick={handleAddUser}>
                         Kullanıcıyı Ekle
                     </button>
                 </div>

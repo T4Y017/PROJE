@@ -11,8 +11,23 @@
     justify-content: center;
     margin-right: 300px;
 }
+.table-wrapper {
+    width: 50%;
+}
 .btn-place {
     position: fixed;
     top: 1%;
     left: 1%;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.btn-edit {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
 }

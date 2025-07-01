@@ -1,16 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addFirm, closeFirmModal, setNewFirm } from "../slice/newFirmSlice";
+import {
+    addFirm,
+    closeFirmModal,
+    resetIsFirmAdded,
+    setNewFirm,
+} from "../slice/newFirmSlice";
 import { AppDispatch, AppState } from "../store/Store";
 import "./new-modal.css";
+import { closeNewUserModal } from "../slice/newUserSlice";
+import { fetchFirmData } from "../slice/firmSlice";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 type Props = {};
 
 export const NewFirmModal = (props: Props) => {
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate(); // <-- EKLENDİ
+
     const postFirm = useSelector(
         (state: AppState) => state.newFirm.newFirmData
     );
+
+    const [searchParams] = useSearchParams();
+    const page = searchParams.get("page")
+        ? Number(searchParams.get("page"))
+        : 1;
+    const firmPerPage = 2;
+    const handleAddFirm = async () => {
+        const res = await dispatch(addFirm(postFirm));
+        if (res.payload.type === "success") {
+            dispatch(closeFirmModal());
+            // Önce firma listesini son sayfa için çek
+            const result = await dispatch(
+                fetchFirmData({ page, limit: firmPerPage })
+            ); // 1. sayfadan başla
+            // Eğer firma ekleme başarılıysa, son sayfaya yönlendir
+            const totalFirm = result?.payload.totalFirm + 1;
+            const totalPage = Math.ceil(totalFirm / firmPerPage);
+            console.log("Total Page:", totalPage);
+            navigate(`?page=${totalPage}`);
+        } else if (res.payload.type === "error") {
+            alert("Firma eklenemedi!!");
+        }
+    };
+
     return (
         <div className="new-modal-container">
             <div className="new-modal">
@@ -138,10 +172,7 @@ export const NewFirmModal = (props: Props) => {
                     ></input>
                 </div>
                 <div>
-                    <button
-                        className="add"
-                        onClick={() => dispatch(addFirm(postFirm))}
-                    >
+                    <button className="add" onClick={handleAddFirm}>
                         Firmayı Ekle
                     </button>
                 </div>
