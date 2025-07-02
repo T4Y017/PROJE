@@ -82,3 +82,25 @@
     background-color: #ddd;
     border-radius: 5px;
 }
+.btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.delete {
+    background-color: red;
+    color: #fff;
+    padding: 0.5rem;
+    border: 1px solid lightcoral;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.cancel {
+    background-color: #fff;
+    color: #ddd;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+}

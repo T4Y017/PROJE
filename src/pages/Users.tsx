@@ -8,6 +8,8 @@ import { fetchUserData } from "../slice/userSlice";
 import Spinner from "../components/spinner";
 import { openNewUserModal } from "../slice/newUserSlice";
 import NewUserModal from "../components/new-user-modal";
+import { fetchFirmData } from "../slice/firmSlice";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 type Props = {};
 
@@ -27,6 +29,10 @@ const Users = (props: Props) => {
     const { isNewUserModalOpen } = useSelector(
         (state: AppState) => state.newUser
     );
+    const handleNewUserModal = () => {
+        dispatch(fetchFirmData({}));
+        dispatch(openNewUserModal());
+    };
     useEffect(() => {
         dispatch(
             fetchUserData({
@@ -35,7 +41,7 @@ const Users = (props: Props) => {
                 firmidfilter: query ? Number(query) : undefined,
             })
         );
-    }, [page]);
+    }, [page, query]);
 
     const paginate = (pageNumber) => {
         const params = new URLSearchParams(searchParams);
@@ -54,16 +60,19 @@ const Users = (props: Props) => {
                 >
                     Geri
                 </button>
+                <button className="btn" onClick={() => navigate("/")}>
+                    Ana Sayfa
+                </button>
             </div>
             {loadUserTaskStatus?.type === "loading" ? (
                 <Spinner />
             ) : loadUserTaskStatus?.type === "success" ? (
                 <>
-                    <button
-                        className="btn"
-                        onClick={() => dispatch(openNewUserModal())}
-                    >
-                        Yeni Kullanıcı Ekle
+                    <button className="btn" onClick={handleNewUserModal}>
+                        <span>
+                            <p>Yeni Kullanıcı Ekle</p>
+                            <PersonAddIcon />
+                        </span>
                     </button>
                     {isNewUserModalOpen && <NewUserModal />}
                     <UserInfoTable emp={data?.users || []} />

@@ -50,6 +50,7 @@ export const fetchUserData =
             const data = await res.json();
             dispatch(setUser(data));
             dispatch(setLoadUserTaskStatus({ type: "success" }));
+            return data;
         } catch (error) {
             dispatch(
                 setLoadUserTaskStatus({ type: "error", message: error.message })

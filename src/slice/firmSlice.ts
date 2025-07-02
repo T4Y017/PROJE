@@ -49,6 +49,7 @@ export const fetchFirmData =
 
             dispatch(setFirm(data));
             dispatch(setLoadFirmTaskStatus({ type: "success" }));
+            return { payload: data }; // <-- return ekle
         } catch (error) {
             dispatch(
                 setLoadFirmTaskStatus({ type: "error", message: error.message })

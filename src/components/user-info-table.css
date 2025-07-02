@@ -33,7 +33,6 @@
 .table td {
     padding: 0.8rem;
     justify-content: center;
-    max-width: 10rem;
 }
 .empty {
     text-align: center;
@@ -44,4 +43,17 @@
     background-color: #ccc;
     cursor: pointer;
     border: 2px solid #ddd;
+}
+.button-group {
+    display: flex;
+    gap: 7px;
+}
+.btn-delete {
+    background-color: #f44336;
+    color: white;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
 }

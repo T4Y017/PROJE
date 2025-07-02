@@ -8,6 +8,13 @@ import { fetchFirmData } from "../slice/firmSlice";
 import Spinner from "../components/spinner";
 import { openFirmModal } from "../slice/newFirmSlice";
 import { NewFirmModal } from "../components/new-firm-modal";
+import { openEditModal } from "../slice/editFirmSlice";
+import { EditFirmModal } from "../components/edit-firm-modal";
+import { openDeleteFirmModal } from "../slice/deleteFirmSlice";
+import { DeleteFirmModal } from "../components/delete-firm-modal";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 
 type Props = {};
 
@@ -27,12 +34,24 @@ const Firms = (props: Props) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const data = useSelector((state: AppState) => state.firm.firm);
+    const edit = useSelector((state: AppState) => state.editFirm.firmData);
+    const deleteFirm = useSelector(
+        (state: AppState) => state.deleteFirm.firmData
+    );
     useEffect(() => {
         dispatch(fetchFirmData({ page, limit: firmPerPage }));
     }, [page]);
 
     const paginate = (pageNumber) => navigate("?page=" + pageNumber);
-
+    const handleEditFirm = (firma) => {
+        dispatch(openFirmModal(firma));
+    };
+    const handleEditModal = (firma) => {
+        dispatch(openEditModal(firma));
+    };
+    const handleDeleteFirm = (firma) => {
+        dispatch(openDeleteFirmModal(firma));
+    };
     return (
         <div className="firm-container">
             <div className="btn-place">
@@ -44,16 +63,19 @@ const Firms = (props: Props) => {
                 >
                     Geri
                 </button>
+                <button className="btn" onClick={() => navigate("/")}>
+                    Ana Sayfa
+                </button>
             </div>
             {loadFirmTaskStatus?.type === "loading" ? (
                 <Spinner />
             ) : loadFirmTaskStatus?.type === "success" ? (
                 <>
-                    <button
-                        className="btn"
-                        onClick={() => dispatch(openFirmModal())}
-                    >
-                        Yeni Firma Ekle
+                    <button className="btn" onClick={handleEditFirm}>
+                        <span>
+                            <p>Yeni Firma Ekle</p>
+                            <AddBusinessIcon />
+                        </span>
                     </button>
                     {isNewFirmModalOpen && <NewFirmModal />}
                     <div className="firm-table">
@@ -70,26 +92,67 @@ const Firms = (props: Props) => {
                                             Firma Çalışan Sayısı{" "}
                                         </th>
                                         <th>Firma Durumu</th>
+                                        <th>İşlemler</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data?.firms.map((firma) => (
-                                        <tr key={firma.id}>
-                                            <Link to={`/firms/${firma.id}`}>
-                                                <td>{firma.firmName}</td>
-                                            </Link>
-                                            <td>{firma.address}</td>
-                                            <td>{firma.firmMail}</td>
-                                            <td>{firma.firmType}</td>
-                                            <td>{firma.tel}</td>
-                                            <td>
-                                                {firma.current_working_person}
-                                            </td>
-                                            <td>{firma.firmStatus}</td>
+                                    {data?.firms && data.firms.length > 0 ? (
+                                        data.firms.map((firma) => (
+                                            <tr key={firma.id}>
+                                                <td>
+                                                    <Link
+                                                        to={`/firms/${firma.id}`}
+                                                    >
+                                                        {firma.firmName}
+                                                    </Link>
+                                                </td>
+                                                <td>{firma.address}</td>
+                                                <td>{firma.firmMail}</td>
+                                                <td>{firma.firmType}</td>
+                                                <td>{firma.tel}</td>
+                                                <td>
+                                                    {
+                                                        firma.current_working_person
+                                                    }
+                                                </td>
+                                                <td>{firma.firmStatus}</td>
+                                                <td>
+                                                    <div className="button-group">
+                                                        <button
+                                                            className="btn-edit"
+                                                            onClick={() =>
+                                                                handleEditModal(
+                                                                    firma
+                                                                )
+                                                            }
+                                                        >
+                                                            <EditIcon />
+                                                        </button>
+                                                        <button
+                                                            className="btn-delete"
+                                                            onClick={() =>
+                                                                handleDeleteFirm(
+                                                                    firma
+                                                                )
+                                                            }
+                                                        >
+                                                            <DeleteIcon />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr className="empty">
+                                            <td colSpan={8}>Hiç Eleman Yok</td>
                                         </tr>
-                                    ))}
+                                    )}
                                 </tbody>
                             </table>
+                            {deleteFirm && (
+                                <DeleteFirmModal firmId={deleteFirm.id} />
+                            )}
+                            {edit && <EditFirmModal firmId={edit.id} />}
                         </div>
                     </div>
                     {data && data.totalPage > 1 && (
