@@ -11,6 +11,7 @@ export interface FetchFirmArgs {
 const initialFirmState: FirmState = {
     loadFirmStatus: null,
     firm: null,
+    allFirms: [],
 };
 
 export interface FirmState {
@@ -20,6 +21,7 @@ export interface FirmState {
         totalFirm: number;
         firms: Firm[];
     } | null;
+    allFirms: Firm[];
 }
 
 export const firmSlice = createSlice({
@@ -32,8 +34,24 @@ export const firmSlice = createSlice({
         setFirm: (state, action) => {
             state.firm = action.payload;
         },
+        setAllFirms: (state, action) => {
+            state.allFirms = action.payload;
+        },
     },
 });
+
+export const fetchAllFirms = () => async (dispatch: AppDispatch) => {
+    try {
+        const res = await fetch("http://localhost:3000/api/firms");
+        const data = await res.json();
+        dispatch(setAllFirms(data.firms));
+        console.log("Tüm firmalar alındı:", data.firms);
+        return;
+    } catch (error) {
+        // Hata yönetimi ekleyebilirsin
+        console.error("Tüm firmalar alınamadı:", error);
+    }
+};
 
 export const fetchFirmData =
     ({ page, limit }: FetchFirmArgs) =>
@@ -56,4 +74,5 @@ export const fetchFirmData =
             );
         }
     };
-export const { setLoadFirmTaskStatus, setFirm } = firmSlice.actions;
+export const { setLoadFirmTaskStatus, setFirm, setAllFirms } =
+    firmSlice.actions;

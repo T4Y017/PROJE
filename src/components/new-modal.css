@@ -104,3 +104,9 @@
     cursor: pointer;
     border-radius: 5px;
 }
+.warning-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+}
