@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store/Store";
 import User from "../interfaces/user";
 import { AsyncTaskStatus } from "../state/utils";
@@ -12,6 +12,7 @@ export interface FetchUserArgs {
 const initialUserState: UserState = {
     loadUserTaskStatus: null,
     user: null,
+    allUsers: [],
 };
 export interface UserState {
     loadUserTaskStatus: AsyncTaskStatus | null;
@@ -20,6 +21,7 @@ export interface UserState {
         totalUser: number;
         users: User[];
     } | null;
+    allUsers: User[];
 }
 
 export const userSlice = createSlice({
@@ -32,8 +34,24 @@ export const userSlice = createSlice({
         setUser: (state, action) => {
             state.user = action.payload;
         },
+        setAllUsers: (state, action) => {
+            state.allUsers = action.payload;
+        },
     },
 });
+
+export const fetchAllUsers = () => async (dispatch: AppDispatch) => {
+    try {
+        const res = await fetch("http://localhost:3000/api/users");
+        const data = await res.json();
+        dispatch(setAllUsers(data.users)); // sadece users dizisini ata
+        console.log("Tüm kullanıcılar alındı:", data.users);
+        return data.users;
+    } catch (error) {
+        // Hata yönetimi ekleyebilirsin
+        console.error("Tüm kullanıcılar alınamadı:", error);
+    }
+};
 
 export const fetchUserData =
     ({ page, limit, firmidfilter }: FetchUserArgs) =>
@@ -58,4 +76,5 @@ export const fetchUserData =
         }
     };
 
-export const { setLoadUserTaskStatus, setUser } = userSlice.actions;
+export const { setLoadUserTaskStatus, setUser, setAllUsers } =
+    userSlice.actions;

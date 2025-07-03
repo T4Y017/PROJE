@@ -3,6 +3,8 @@ import { AppDispatch } from "../store/Store";
 import { closeDeleteModal, deleteUser } from "../slice/deleteUserSlice";
 import { useSearchParams } from "react-router-dom";
 import { fetchUserData } from "../slice/userSlice";
+import WarningIcon from "@mui/icons-material/Warning";
+import "./new-modal.css";
 
 interface Props {
     userId: number;
@@ -35,6 +37,9 @@ export const DeleteUserModal = ({ userId }: Props) => {
                     >
                         X
                     </button>
+                </div>
+                <div className="warning-icon">
+                    <WarningIcon style={{ fontSize: 90 }} />
                 </div>
                 <div>Kullanıcıyı silmek istediğinize emin misiniz?</div>
                 <div className="btn-group">

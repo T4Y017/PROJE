@@ -4,6 +4,7 @@ import { AppDispatch } from "../store/Store";
 import { closeDeleteFirmModal, deleteFirm } from "../slice/deleteFirmSlice";
 import { fetchFirmData } from "../slice/firmSlice";
 import { useSearchParams } from "react-router-dom";
+import WarningIcon from "@mui/icons-material/Warning";
 
 interface Props {
     firmId: number;
@@ -36,6 +37,9 @@ export const DeleteFirmModal = ({ firmId }: Props) => {
                     >
                         X
                     </button>
+                </div>
+                <div className="warning-icon">
+                    <WarningIcon style={{ fontSize: 90 }} />
                 </div>
                 <div>Firmayı silmek istediğinize emin misiniz?</div>
                 <div className="btn-group">

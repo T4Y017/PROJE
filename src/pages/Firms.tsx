@@ -4,7 +4,7 @@ import "./Firm.css";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../store/Store";
-import { fetchFirmData } from "../slice/firmSlice";
+import { fetchAllFirms, fetchFirmData } from "../slice/firmSlice";
 import Spinner from "../components/spinner";
 import { openFirmModal } from "../slice/newFirmSlice";
 import { NewFirmModal } from "../components/new-firm-modal";
@@ -15,6 +15,11 @@ import { DeleteFirmModal } from "../components/delete-firm-modal";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import HomeIcon from "@mui/icons-material/Home";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { SearchBarFirm } from "../components/search-bar-firm";
+import { filterSearchFirm } from "../state/utils";
+import { setSearchQuery } from "../slice/searchFirmSlice";
 
 type Props = {};
 
@@ -38,8 +43,21 @@ const Firms = (props: Props) => {
     const deleteFirm = useSelector(
         (state: AppState) => state.deleteFirm.firmData
     );
+    const search = useSelector(
+        (state: AppState) => state.searchFirm.searchQuery
+    );
+    const allFirms = useSelector((state: AppState) => state.firm.allFirms);
+    const filteredFirms = filterSearchFirm(allFirms, search);
+    const paginatedFirms = filteredFirms.slice(
+        (page - 1) * firmPerPage,
+        page * firmPerPage
+    );
     useEffect(() => {
+        dispatch(fetchAllFirms());
         dispatch(fetchFirmData({ page, limit: firmPerPage }));
+        return () => {
+            dispatch(setSearchQuery(""));
+        };
     }, [page]);
 
     const paginate = (pageNumber) => navigate("?page=" + pageNumber);
@@ -61,16 +79,17 @@ const Firms = (props: Props) => {
                         navigate(-1);
                     }}
                 >
-                    Geri
+                    <ArrowBackIcon />
                 </button>
                 <button className="btn" onClick={() => navigate("/")}>
-                    Ana Sayfa
+                    <HomeIcon />
                 </button>
             </div>
             {loadFirmTaskStatus?.type === "loading" ? (
                 <Spinner />
             ) : loadFirmTaskStatus?.type === "success" ? (
                 <>
+                    <SearchBarFirm />
                     <button className="btn" onClick={handleEditFirm}>
                         <span>
                             <p>Yeni Firma Ekle</p>
@@ -96,8 +115,9 @@ const Firms = (props: Props) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data?.firms && data.firms.length > 0 ? (
-                                        data.firms.map((firma) => (
+                                    {data?.firms &&
+                                    paginatedFirms.length > 0 ? (
+                                        paginatedFirms.map((firma) => (
                                             <tr key={firma.id}>
                                                 <td>
                                                     <Link
@@ -158,7 +178,7 @@ const Firms = (props: Props) => {
                     {data && data.totalPage > 1 && (
                         <Pagination
                             infoPerPage={firmPerPage}
-                            totalData={data.totalFirm}
+                            totalData={filteredFirms.length}
                             paginate={paginate}
                         />
                     )}

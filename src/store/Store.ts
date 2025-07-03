@@ -13,6 +13,8 @@ import {
     deleteFirmSlice,
     DeleteFirmState,
 } from "../slice/deleteFirmSlice";
+import { search, searchUserSlice, SearchState } from "../slice/searchUserSlice";
+import { searchFirmSlice } from "../slice/searchFirmSlice";
 
 const store = configureStore({
     reducer: {
@@ -26,6 +28,8 @@ const store = configureStore({
         editFirm: editFirmSlice.reducer,
         deleteUser: deleteUserSlice.reducer,
         deleteFirm: deleteFirmSlice.reducer,
+        searchUser: searchUserSlice.reducer,
+        searchFirm: searchFirmSlice.reducer,
     },
 });
 
@@ -40,6 +44,8 @@ export interface AppState {
     editFirm: EditFirmState;
     deleteUser: DeleteUserState;
     deleteFirm: DeleteFirmState;
+    searchUser: SearchState;
+    searchFirm: SearchState;
 }
 
 export default store;

@@ -4,12 +4,17 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../store/Store";
-import { fetchUserData } from "../slice/userSlice";
+import { fetchAllUsers, fetchUserData } from "../slice/userSlice";
 import Spinner from "../components/spinner";
 import { openNewUserModal } from "../slice/newUserSlice";
 import NewUserModal from "../components/new-user-modal";
 import { fetchFirmData } from "../slice/firmSlice";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import HomeIcon from "@mui/icons-material/Home";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { SearchBarUser } from "../components/search-bar-user";
+import { filterSearch } from "../state/utils";
+import { setSearchQuery } from "../slice/searchUserSlice";
 
 type Props = {};
 
@@ -26,6 +31,18 @@ const Users = (props: Props) => {
     );
     const dispatch = useDispatch<AppDispatch>();
     const data = useSelector((state: AppState) => state.user.user);
+    const search = useSelector(
+        (state: AppState) => state.searchUser.searchQuery
+    );
+    const allUsers = useSelector((state: AppState) => state.user.allUsers);
+    const filteredUsers = filterSearch(allUsers, search);
+    const paginatedUsers = filteredUsers.slice(
+        (page - 1) * userPerPage,
+        page * userPerPage
+    );
+    console.log("paginatedUsers", paginatedUsers);
+    console.log(allUsers);
+    console.log("filteredUsers", filteredUsers);
     const { isNewUserModalOpen } = useSelector(
         (state: AppState) => state.newUser
     );
@@ -33,7 +50,9 @@ const Users = (props: Props) => {
         dispatch(fetchFirmData({}));
         dispatch(openNewUserModal());
     };
+
     useEffect(() => {
+        dispatch(fetchAllUsers());
         dispatch(
             fetchUserData({
                 page,
@@ -41,6 +60,9 @@ const Users = (props: Props) => {
                 firmidfilter: query ? Number(query) : undefined,
             })
         );
+        return () => {
+            dispatch(setSearchQuery(""));
+        };
     }, [page, query]);
 
     const paginate = (pageNumber) => {
@@ -48,7 +70,6 @@ const Users = (props: Props) => {
         params.set("page", pageNumber);
         navigate(`?${params}`);
     };
-    console.log(data);
     return (
         <div className="App">
             <div className="btn-place">
@@ -58,16 +79,17 @@ const Users = (props: Props) => {
                         navigate(-1);
                     }}
                 >
-                    Geri
+                    <ArrowBackIcon />
                 </button>
                 <button className="btn" onClick={() => navigate("/")}>
-                    Ana Sayfa
+                    <HomeIcon />
                 </button>
             </div>
             {loadUserTaskStatus?.type === "loading" ? (
                 <Spinner />
             ) : loadUserTaskStatus?.type === "success" ? (
                 <>
+                    <SearchBarUser />
                     <button className="btn" onClick={handleNewUserModal}>
                         <span>
                             <p>Yeni Kullanıcı Ekle</p>
@@ -75,11 +97,11 @@ const Users = (props: Props) => {
                         </span>
                     </button>
                     {isNewUserModalOpen && <NewUserModal />}
-                    <UserInfoTable emp={data?.users || []} />
+                    <UserInfoTable emp={paginatedUsers} />
                     {data && data.totalPage > 1 && (
                         <Pagination
                             infoPerPage={userPerPage}
-                            totalData={data.totalUser}
+                            totalData={filteredUsers.length}
                             paginate={paginate}
                         />
                     )}
