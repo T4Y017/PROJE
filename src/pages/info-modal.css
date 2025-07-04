@@ -45,8 +45,15 @@
 }
 
 .firm {
-    padding: 0.15rem;
+    padding: 0.5rem;
     border-radius: 10px;
+}
+
+.firm:hover {
+    color: #fff;
+    background-color: #ccc;
+    cursor: pointer;
+    border: 2px solid #ddd;
 }
 
 .formgroup {
@@ -57,4 +64,13 @@
 
 .formgroup label {
     margin-bottom: 0.2rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 16rem;
+    gap: 1rem;
 }

@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../store/Store";
-import { fetchAllUsers, fetchUserData } from "../slice/userSlice";
+import { fetchUserData } from "../slice/userSlice";
 import Spinner from "../components/spinner";
 import { openNewUserModal } from "../slice/newUserSlice";
 import NewUserModal from "../components/new-user-modal";
@@ -14,7 +14,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { SearchBarUser } from "../components/search-bar-user";
 import { filterSearch } from "../state/utils";
-import { setSearchQuery } from "../slice/searchUserSlice";
+import { clearSearchQuery, setSearchQuery } from "../slice/searchUserSlice";
+import { logout } from "../slice/authSlice";
 
 type Props = {};
 
@@ -34,14 +35,13 @@ const Users = (props: Props) => {
     const search = useSelector(
         (state: AppState) => state.searchUser.searchQuery
     );
-    const allUsers = useSelector((state: AppState) => state.user.allUsers);
-    const filteredUsers = filterSearch(allUsers, search);
+    const userRole = useSelector((state: AppState) => state.auth.role);
+    const filteredUsers = filterSearch(data?.users || [], search);
     const paginatedUsers = filteredUsers.slice(
         (page - 1) * userPerPage,
         page * userPerPage
     );
     console.log("paginatedUsers", paginatedUsers);
-    console.log(allUsers);
     console.log("filteredUsers", filteredUsers);
     const { isNewUserModalOpen } = useSelector(
         (state: AppState) => state.newUser
@@ -50,20 +50,31 @@ const Users = (props: Props) => {
         dispatch(fetchFirmData({}));
         dispatch(openNewUserModal());
     };
+    const handleLogout = async () => {
+        await fetch("http://localhost:3000/api/logout", {
+            method: "POST",
+            credentials: "include", // important to send cookies!
+        });
+
+        dispatch(logout()); // reset Redux auth state
+        localStorage.removeItem("accessToken"); // clear token
+    };
 
     useEffect(() => {
-        dispatch(fetchAllUsers());
+        console.log("Request initiated", page);
+
         dispatch(
             fetchUserData({
                 page,
-                limit: userPerPage,
                 firmidfilter: query ? Number(query) : undefined,
+                usernamefilter: search,
             })
         );
-        return () => {
-            dispatch(setSearchQuery(""));
-        };
-    }, [page, query]);
+    }, [page, search]);
+
+    useEffect(() => {
+        if (search) paginate(1);
+    }, [search]);
 
     const paginate = (pageNumber) => {
         const params = new URLSearchParams(searchParams);
@@ -81,36 +92,44 @@ const Users = (props: Props) => {
                 >
                     <ArrowBackIcon />
                 </button>
-                <button className="btn" onClick={() => navigate("/")}>
+                <button className="btn" onClick={handleLogout}>
                     <HomeIcon />
                 </button>
             </div>
-            {loadUserTaskStatus?.type === "loading" ? (
-                <Spinner />
-            ) : loadUserTaskStatus?.type === "success" ? (
-                <>
-                    <SearchBarUser />
-                    <button className="btn" onClick={handleNewUserModal}>
-                        <span>
-                            <p>Yeni Kullanıcı Ekle</p>
-                            <PersonAddIcon />
-                        </span>
-                    </button>
-                    {isNewUserModalOpen && <NewUserModal />}
-                    <UserInfoTable emp={paginatedUsers} />
-                    {data && data.totalPage > 1 && (
-                        <Pagination
-                            infoPerPage={userPerPage}
-                            totalData={filteredUsers.length}
-                            paginate={paginate}
-                        />
-                    )}
-                </>
-            ) : (
-                <div style={{ color: "red" }}>
-                    {loadUserTaskStatus?.message}
-                </div>
-            )}
+            <div className="container">
+                <SearchBarUser />
+                {loadUserTaskStatus?.type === "loading" ? (
+                    <Spinner />
+                ) : loadUserTaskStatus?.type === "success" ? (
+                    <>
+                        {userRole === "admin" && (
+                            <button
+                                className="btn"
+                                onClick={handleNewUserModal}
+                            >
+                                <span>
+                                    <p>Yeni Kullanıcı Ekle</p>
+                                    <PersonAddIcon />
+                                </span>
+                            </button>
+                        )}
+
+                        {isNewUserModalOpen && <NewUserModal />}
+                        <UserInfoTable emp={data!.users} />
+                        {data!.totalPage > 1 && (
+                            <Pagination
+                                infoPerPage={userPerPage}
+                                totalData={data!.totalUser}
+                                paginate={paginate}
+                            />
+                        )}
+                    </>
+                ) : (
+                    <div style={{ color: "red" }}>
+                        {loadUserTaskStatus?.message}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

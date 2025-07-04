@@ -9,11 +9,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 300px;
 }
-.table-wrapper {
-    width: 50%;
-}
+
 .btn-place {
     position: fixed;
     top: 1%;

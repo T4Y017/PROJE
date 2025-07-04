@@ -56,19 +56,7 @@ export default function NewUserModal({}: Props) {
                         X
                     </button>
                 </div>
-                <div className="label-modals">
-                    <label htmlFor="">Id:</label>
-                    <input
-                        onChange={(e) =>
-                            dispatch(
-                                setNewUser({
-                                    ...postData,
-                                    id: e.target.value,
-                                })
-                            )
-                        }
-                    ></input>
-                </div>
+
                 <div className="label-modals">
                     <label htmlFor="">Username:</label>
                     <input
@@ -208,6 +196,19 @@ export default function NewUserModal({}: Props) {
                                 setNewUser({
                                     ...postData,
                                     known_language: e.target.value,
+                                })
+                            )
+                        }
+                    ></input>
+                </div>
+                <div className="label-modals">
+                    <label htmlFor="">Şifre:</label>
+                    <input
+                        onChange={(e) =>
+                            dispatch(
+                                setNewUser({
+                                    ...postData,
+                                    password: e.target.value,
                                 })
                             )
                         }

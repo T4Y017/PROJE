@@ -7,6 +7,7 @@ export interface FetchUserArgs {
     page?: number;
     limit?: number;
     firmidfilter?: number;
+    usernamefilter?: string;
 }
 
 const initialUserState: UserState = {
@@ -40,28 +41,31 @@ export const userSlice = createSlice({
     },
 });
 
-export const fetchAllUsers = () => async (dispatch: AppDispatch) => {
-    try {
-        const res = await fetch("http://localhost:3000/api/users");
-        const data = await res.json();
-        dispatch(setAllUsers(data.users)); // sadece users dizisini ata
-        console.log("Tüm kullanıcılar alındı:", data.users);
-        return data.users;
-    } catch (error) {
-        // Hata yönetimi ekleyebilirsin
-        console.error("Tüm kullanıcılar alınamadı:", error);
-    }
-};
+// export const fetchAllUsers = () => async (dispatch: AppDispatch) => {
+//     try {
+//         const res = await fetch("http://localhost:3000/api/users");
+//         const data = await res.json();
+//         dispatch(setAllUsers(data.users)); // sadece users dizisini ata
+//         console.log("Tüm kullanıcılar alındı:", data.users);
+//         return data.users;
+//     } catch (error) {
+//         // Hata yönetimi ekleyebilirsin
+//         console.error("Tüm kullanıcılar alınamadı:", error);
+//     }
+// };
 
 export const fetchUserData =
-    ({ page, limit, firmidfilter }: FetchUserArgs) =>
+    ({ page, limit, firmidfilter, usernamefilter }: FetchUserArgs) =>
     async (dispatch: AppDispatch) => {
         const url = new URL("http://localhost:3000/api/users");
 
         if (page) url.searchParams.append("page", page.toString());
         if (limit) url.searchParams.append("limit", limit.toString());
+
         if (firmidfilter)
             url.searchParams.append("firmidfilter", firmidfilter.toString());
+        if (usernamefilter)
+            url.searchParams.append("usernamefilter", usernamefilter);
         dispatch(setLoadUserTaskStatus({ type: "loading" }));
         try {
             const res = await fetch(url.toString());
