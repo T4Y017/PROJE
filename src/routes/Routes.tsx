@@ -5,6 +5,8 @@ import UserDetail from "../pages/UserDetail";
 import FirmDetail from "../pages/FirmDetail";
 import Users from "../pages/Users";
 import Firms from "../pages/Firms";
+import { Authentication } from "../pages/authentication";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 function UserWrapper() {
     const { userId } = useParams();
@@ -21,11 +23,17 @@ export const router = createBrowserRouter([
         path: "/",
         element: <App />,
         children: [
-            { index: true, element: <Home /> },
-            { path: "users/:userId", element: <UserWrapper /> },
-            { path: "firms/:firmId", element: <FirmWrapper /> },
-            { path: "users", element: <Users /> },
-            { path: "firms", element: <Firms /> },
+            { index: true, element: <Authentication /> },
+            {
+                element: <ProtectedRoutes />,
+                children: [
+                    { path: "home", element: <Home /> },
+                    { path: "users/:userId", element: <UserWrapper /> },
+                    { path: "firms/:firmId", element: <FirmWrapper /> },
+                    { path: "users", element: <Users /> },
+                    { path: "firms", element: <Firms /> },
+                ],
+            },
         ],
     },
 ]);

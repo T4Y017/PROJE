@@ -2,9 +2,7 @@
     margin: 0;
     padding: 0;
 }
-.table-wrapper {
-    width: 50%;
-}
+
 .table {
     overflow: hidden;
     table-layout: auto;
@@ -12,12 +10,10 @@
     border-radius: 10px;
     margin: auto;
     overflow-x: auto;
-    width: 50%;
 }
 .table thead {
     background-color: #ccc;
     color: #222;
-    padding: 5px;
 }
 .table tbody {
     padding: 10px;
@@ -38,12 +34,7 @@
     text-align: center;
     margin-left: 10px;
 }
-.firm:hover {
-    color: #fff;
-    background-color: #ccc;
-    cursor: pointer;
-    border: 2px solid #ddd;
-}
+
 .button-group {
     display: flex;
     gap: 7px;

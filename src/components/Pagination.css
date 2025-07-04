@@ -4,13 +4,16 @@
     margin-top: 5px;
     justify-content: center;
     align-items: center;
+    list-style: none;
+    /* min-height: 4rem; */
 }
 .btn-page {
     padding: 5px;
     border-radius: 10%;
     border: 2px solid #ccc;
     background-color: #fff;
+    cursor: pointer;
 }
-.btn-page:focus {
+.btn-page-active {
     background-color: #ddd;
 }

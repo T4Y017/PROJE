@@ -1,5 +1,6 @@
 import React from "react";
 import "./Pagination.css";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
     infoPerPage: number;
@@ -8,6 +9,9 @@ interface Props {
 }
 
 const Pagination = ({ infoPerPage, totalData, paginate }: Props) => {
+    const [searchParams] = useSearchParams();
+    const currentPage = Number(searchParams.get("page"));
+
     const pageNumbers: number[] = [];
     for (let i = 1; i <= Math.ceil(totalData / infoPerPage); i++) {
         pageNumbers.push(i);
@@ -17,7 +21,9 @@ const Pagination = ({ infoPerPage, totalData, paginate }: Props) => {
             {pageNumbers.map((number) => (
                 <button
                     key={number}
-                    className="btn-page"
+                    className={`btn-page ${
+                        currentPage === number && "btn-page-active"
+                    }`}
                     onClick={() => paginate(number)}
                 >
                     {number}

@@ -25,6 +25,7 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
     const deleteUser = useSelector(
         (state: AppState) => state.deleteUser.userData
     );
+    const userRole = useSelector((state: AppState) => state.auth.role);
     const [searchParams] = useSearchParams();
     const page = searchParams.get("page")
         ? Number(searchParams.get("page"))
@@ -80,22 +81,32 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                                             {" "}
                                             Kullanıcı Detayı
                                         </button>
-                                        <button
-                                            className="btn-edit"
-                                            onClick={() =>
-                                                dispatch(openEditModal(user))
-                                            }
-                                        >
-                                            <EditIcon />
-                                        </button>
-                                        <button
-                                            className="btn-delete"
-                                            onClick={() =>
-                                                dispatch(openDeleteModal(user))
-                                            }
-                                        >
-                                            <PersonRemoveIcon />
-                                        </button>
+                                        {userRole === "admin" && (
+                                            <>
+                                                <button
+                                                    className="btn-edit"
+                                                    onClick={() =>
+                                                        dispatch(
+                                                            openEditModal(user)
+                                                        )
+                                                    }
+                                                >
+                                                    <EditIcon />
+                                                </button>
+                                                <button
+                                                    className="btn-delete"
+                                                    onClick={() =>
+                                                        dispatch(
+                                                            openDeleteModal(
+                                                                user
+                                                            )
+                                                        )
+                                                    }
+                                                >
+                                                    <PersonRemoveIcon />
+                                                </button>
+                                            </>
+                                        )}
                                     </div>
                                 </td>
                             </tr>
