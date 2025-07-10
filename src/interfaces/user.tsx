@@ -11,4 +11,5 @@ export default interface User {
     birthdate: string;
     gender: string;
     known_language: string;
+    password: number; // Optional for some operations
 }

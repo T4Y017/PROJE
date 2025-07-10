@@ -15,6 +15,7 @@ import {
 } from "../slice/deleteFirmSlice";
 import { search, searchUserSlice, SearchState } from "../slice/searchUserSlice";
 import { searchFirmSlice } from "../slice/searchFirmSlice";
+import { authSlice, AuthState } from "../slice/authSlice";
 
 const store = configureStore({
     reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
         deleteFirm: deleteFirmSlice.reducer,
         searchUser: searchUserSlice.reducer,
         searchFirm: searchFirmSlice.reducer,
+        auth: authSlice.reducer,
     },
 });
 
@@ -46,6 +48,7 @@ export interface AppState {
     deleteFirm: DeleteFirmState;
     searchUser: SearchState;
     searchFirm: SearchState;
+    auth: AuthState;
 }
 
 export default store;
