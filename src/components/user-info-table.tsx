@@ -11,6 +11,9 @@ import { useEffect } from "react";
 import { fetchFirmData } from "../slice/firmSlice";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import { openAuthorizationModal } from "../slice/userTaskFormSlice";
+import { AuthorizationModal } from "./authorization-modal";
+import { fetchUserData } from "../slice/userSlice";
 
 export interface UserInfoTableProps {
     // @TODO: Add emp type
@@ -22,15 +25,27 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
     const dispatch = useDispatch<AppDispatch>();
     const edit = useSelector((state: AppState) => state.editUser.userData);
     const firm = useSelector((state: AppState) => state.firm.firm?.firms);
+    const isAuthorized = useSelector(
+        (state: AppState) => state.authorization.isAuthorizationModalOpen
+    );
     const deleteUser = useSelector(
         (state: AppState) => state.deleteUser.userData
     );
+    const selectedUserID = useSelector(
+        (state: AppState) => state.authorization.selectedUser.userId
+    );
+    const currentUserMail = useSelector((state: AppState) => state.auth.mail);
+    const userPermissions = useSelector(
+        (state: AppState) => state.auth.permissions
+    );
+    const loggedInUser = emp.find((user) => user.mail === currentUserMail);
+
     const userRole = useSelector((state: AppState) => state.auth.role);
     const [searchParams] = useSearchParams();
     const page = searchParams.get("page")
         ? Number(searchParams.get("page"))
         : 1;
-    console.log(userRole, "userRole");
+
     useEffect(() => {
         dispatch(fetchFirmData({ page }));
     }, []);
@@ -82,30 +97,60 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                                             {" "}
                                             Kullanıcı Detayı
                                         </button>
-                                        {userRole === "admin" && (
+
+                                        {(userRole === "admin" ||
+                                            userRole === "gözlemci") && (
                                             <>
-                                                <button
-                                                    className="btn-edit"
-                                                    onClick={() =>
-                                                        dispatch(
-                                                            openEditModal(user)
-                                                        )
-                                                    }
-                                                >
-                                                    <EditIcon />
-                                                </button>
-                                                <button
-                                                    className="btn-delete"
-                                                    onClick={() =>
-                                                        dispatch(
-                                                            openDeleteModal(
-                                                                user
+                                                {user.role === "gözlemci" &&
+                                                    userRole === "admin" && (
+                                                        <button
+                                                            className="firm"
+                                                            onClick={() => {
+                                                                console.log(
+                                                                    user.permissions
+                                                                );
+                                                                dispatch(
+                                                                    openAuthorizationModal(
+                                                                        user.id
+                                                                    )
+                                                                );
+                                                            }}
+                                                        >
+                                                            Görev Ata
+                                                        </button>
+                                                    )}
+
+                                                {(userRole === "admin" ||
+                                                    userPermissions?.edit) && (
+                                                    <button
+                                                        className="btn-edit"
+                                                        onClick={() =>
+                                                            dispatch(
+                                                                openEditModal(
+                                                                    user
+                                                                )
                                                             )
-                                                        )
-                                                    }
-                                                >
-                                                    <PersonRemoveIcon />
-                                                </button>
+                                                        }
+                                                    >
+                                                        <EditIcon />
+                                                    </button>
+                                                )}
+
+                                                {(userRole === "admin" ||
+                                                    userPermissions?.delete) && (
+                                                    <button
+                                                        className="btn-delete"
+                                                        onClick={() =>
+                                                            dispatch(
+                                                                openDeleteModal(
+                                                                    user
+                                                                )
+                                                            )
+                                                        }
+                                                    >
+                                                        <PersonRemoveIcon />
+                                                    </button>
+                                                )}
                                             </>
                                         )}
                                     </div>
@@ -119,6 +164,9 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                     )}
                 </tbody>
             </table>
+            {isAuthorized && selectedUserID !== null && (
+                <AuthorizationModal userId={selectedUserID} />
+            )}
             {deleteUser && <DeleteUserModal userId={deleteUser.id} />}
             {edit && <EditUserModal userId={Number(edit.id)} />}
         </div>

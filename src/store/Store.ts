@@ -16,6 +16,10 @@ import {
 import { search, searchUserSlice, SearchState } from "../slice/searchUserSlice";
 import { searchFirmSlice } from "../slice/searchFirmSlice";
 import { authSlice, AuthState } from "../slice/authSlice";
+import {
+    authorizationSlice,
+    AuthorizationState,
+} from "../slice/userTaskFormSlice";
 
 const store = configureStore({
     reducer: {
@@ -32,6 +36,7 @@ const store = configureStore({
         searchUser: searchUserSlice.reducer,
         searchFirm: searchFirmSlice.reducer,
         auth: authSlice.reducer,
+        authorization: authorizationSlice.reducer,
     },
 });
 
@@ -49,6 +54,7 @@ export interface AppState {
     searchUser: SearchState;
     searchFirm: SearchState;
     auth: AuthState;
+    authorization: AuthorizationState;
 }
 
 export default store;

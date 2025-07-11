@@ -6,6 +6,11 @@ export const initialAuthState = {
     mail: "",
     password: "",
     role: "",
+    permissions: {
+        edit: false,
+        delete: false,
+        addUser: false,
+    },
     authReady: false,
 };
 
@@ -14,6 +19,11 @@ export interface AuthState {
     mail: string;
     password: string;
     role: string;
+    permissions: {
+        edit: boolean;
+        delete: boolean;
+        addUser: boolean;
+    };
     authReady: boolean;
 }
 
@@ -23,9 +33,10 @@ export const authSlice = createSlice({
     reducers: {
         setCredentials: (state, action) => {
             state.isAuthenticated = true;
-            state.mail = action.payload.user;
+            state.mail = action.payload.mail;
             state.password = action.payload.password;
             state.role = action.payload.role; // Kullanıcı rolünü de ekle
+            state.permissions = action.payload.permissions;
         },
 
         logout: (state) => {

@@ -12,4 +12,9 @@ export default interface User {
     gender: string;
     known_language: string;
     password: number; // Optional for some operations
+    permissions: {
+        edit: boolean;
+        delete: boolean;
+        addUser: boolean;
+    };
 }
