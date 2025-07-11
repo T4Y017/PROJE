@@ -32,6 +32,7 @@ const Users = (props: Props) => {
     );
     const dispatch = useDispatch<AppDispatch>();
     const data = useSelector((state: AppState) => state.user.user);
+    console.log("gelen kişi", data?.users);
     const search = useSelector(
         (state: AppState) => state.searchUser.searchQuery
     );
@@ -50,6 +51,9 @@ const Users = (props: Props) => {
         dispatch(fetchFirmData({}));
         dispatch(openNewUserModal());
     };
+    const permissions = useSelector(
+        (state: AppState) => state.authorization.permissions
+    );
     const handleLogout = async () => {
         await fetch("http://localhost:3000/api/logout", {
             method: "POST",
@@ -102,7 +106,8 @@ const Users = (props: Props) => {
                     <Spinner />
                 ) : loadUserTaskStatus?.type === "success" ? (
                     <>
-                        {userRole === "admin" && (
+                        {(userRole === "admin" ||
+                            (userRole === "gözlemci" && data?.users)) && (
                             <button
                                 className="btn"
                                 onClick={handleNewUserModal}

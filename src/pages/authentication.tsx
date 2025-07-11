@@ -40,12 +40,14 @@ export const Authentication = () => {
         });
 
         const data = await res.json();
+        console.log(data.user, "auth user");
         if (res) {
             dispatch(
                 setCredentials({
                     mail: data.user.mail,
                     password: data.user.password,
                     role: data.user.role,
+                    permissions: data.user.permissions,
                     isAuthenticated: true,
                 })
             );

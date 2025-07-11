@@ -37,6 +37,7 @@
 
 .button-group {
     display: flex;
+    justify-content: center;
     gap: 7px;
 }
 .btn-delete {
