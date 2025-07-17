@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import "./Register.css";
-import { data, useNavigate } from "react-router-dom";
+import "./register.css";
+import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-type Props = {};
-
-export const Register = (props: Props) => {
+export const Register = () => {
     const [username, setUsername] = useState("");
     const [surname, setSurname] = useState("");
     const [mail, setMail] = useState("");
@@ -33,7 +31,7 @@ export const Register = (props: Props) => {
                 role,
             }),
         });
-        const data = await res.json();
+        await res.json();
         alert("Kayıt başarılı!");
         navigate("/");
     };
