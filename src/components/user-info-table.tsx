@@ -1,5 +1,5 @@
 import "./user-info-table.css";
-import User from "../interfaces/user";
+import User, { Permission, UserRole } from "../interfaces/user";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../store/Store";
@@ -11,6 +11,9 @@ import { useEffect } from "react";
 import { fetchFirmData } from "../slice/firmSlice";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import { openAuthorizationModal } from "../slice/userTaskFormSlice";
+import { AuthorizationModal } from "./authorization-modal";
+import { fetchUserData } from "../slice/userSlice";
 
 export interface UserInfoTableProps {
     // @TODO: Add emp type
@@ -22,18 +25,40 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
     const dispatch = useDispatch<AppDispatch>();
     const edit = useSelector((state: AppState) => state.editUser.userData);
     const firm = useSelector((state: AppState) => state.firm.firm?.firms);
+    const isAuthorized = useSelector(
+        (state: AppState) => state.authorization.isAuthorizationModalOpen
+    );
     const deleteUser = useSelector(
         (state: AppState) => state.deleteUser.userData
     );
+    const selectedUserID = useSelector(
+        (state: AppState) => state.authorization.selectedUser.userId
+    );
+    const userPermissions = useSelector(
+        (state: AppState) => state.auth.permissions
+    );
+
     const userRole = useSelector((state: AppState) => state.auth.role);
     const [searchParams] = useSearchParams();
     const page = searchParams.get("page")
         ? Number(searchParams.get("page"))
         : 1;
-    console.log(userRole, "userRole");
+
     useEffect(() => {
         dispatch(fetchFirmData({ page }));
-    }, []);
+    }, [page]);
+
+    const hasAccess = (
+        userRole: UserRole,
+        permissions: Permission[]
+    ): boolean => {
+        return (
+            userRole === UserRole.Admin ||
+            userPermissions?.some((p) => permissions?.includes(p)) ||
+            false
+        );
+    };
+    console.log(userPermissions);
     return (
         <div className="table-wrapper">
             <table className="table">
@@ -82,30 +107,63 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                                             {" "}
                                             Kullanıcı Detayı
                                         </button>
-                                        {userRole === "admin" && (
+
+                                        {hasAccess(userRole, [
+                                            Permission.Edit,
+                                        ]) && (
                                             <>
-                                                <button
-                                                    className="btn-edit"
-                                                    onClick={() =>
-                                                        dispatch(
-                                                            openEditModal(user)
-                                                        )
-                                                    }
-                                                >
-                                                    <EditIcon />
-                                                </button>
-                                                <button
-                                                    className="btn-delete"
-                                                    onClick={() =>
-                                                        dispatch(
-                                                            openDeleteModal(
-                                                                user
+                                                {userRole ===
+                                                    UserRole.Admin && (
+                                                    <button
+                                                        className="firm"
+                                                        onClick={() => {
+                                                            console.log(
+                                                                user.permissions
+                                                            );
+                                                            dispatch(
+                                                                openAuthorizationModal(
+                                                                    user.id
+                                                                )
+                                                            );
+                                                        }}
+                                                    >
+                                                        Yetki Ver
+                                                    </button>
+                                                )}
+
+                                                {hasAccess(userRole, [
+                                                    Permission.Edit,
+                                                ]) && (
+                                                    <button
+                                                        className="btn-edit"
+                                                        onClick={() =>
+                                                            dispatch(
+                                                                openEditModal(
+                                                                    user
+                                                                )
                                                             )
-                                                        )
-                                                    }
-                                                >
-                                                    <PersonRemoveIcon />
-                                                </button>
+                                                        }
+                                                    >
+                                                        <EditIcon />
+                                                    </button>
+                                                )}
+
+                                                {hasAccess(userRole, [
+                                                    Permission.Delete,
+                                                ]) && (
+                                                    <button
+                                                        className="btn-delete"
+                                                        onClick={() =>
+                                                            dispatch(
+                                                                openDeleteModal(
+                                                                    user
+                                                                )
+                                                            )
+                                                        }
+                                                    >
+                                                        <PersonRemoveIcon />
+                                                    </button>
+                                                )}
                                             </>
                                         )}
                                     </div>
@@ -119,6 +177,9 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                     )}
                 </tbody>
             </table>
+            {isAuthorized && selectedUserID !== null && (
+                <AuthorizationModal userId={selectedUserID} />
+            )}
             {deleteUser && <DeleteUserModal userId={deleteUser.id} />}
             {edit && <EditUserModal userId={Number(edit.id)} />}
         </div>

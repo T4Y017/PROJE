@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { setCredentials, setAuthReady } from "../slice/authSlice";
-import { AppDispatch } from "../store/Store";
+import { AppDispatch, AppState } from "../store/Store";
 
 type Props = {};
 
 export const AuthLayout = (props: Props) => {
     const dispatch = useDispatch<AppDispatch>();
+    const { permissions } = useSelector((state: AppState) => state.auth);
+
     useEffect(() => {
         console.log("Authentication component mounted");
         const tryRefreshToken = async () => {
@@ -28,6 +30,7 @@ export const AuthLayout = (props: Props) => {
 
                     dispatch(
                         setCredentials({
+                            permissions: data.user.permissions,
                             mail: data.user.mail,
                             role: data.user.role,
                             isAuthenticated: true,

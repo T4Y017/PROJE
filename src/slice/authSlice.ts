@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import User from "../interfaces/user";
+import User, { Permission, UserRole } from "../interfaces/user";
 
 export const initialAuthState = {
     isAuthenticated: false,
     mail: "",
     password: "",
     role: "",
+    permissions: [],
     authReady: false,
 };
 
@@ -13,7 +14,8 @@ export interface AuthState {
     isAuthenticated: boolean;
     mail: string;
     password: string;
-    role: string;
+    role: UserRole;
+    permissions: Permission[];
     authReady: boolean;
 }
 
@@ -23,9 +25,10 @@ export const authSlice = createSlice({
     reducers: {
         setCredentials: (state, action) => {
             state.isAuthenticated = true;
-            state.mail = action.payload.user;
+            state.mail = action.payload.mail;
             state.password = action.payload.password;
             state.role = action.payload.role; // Kullanıcı rolünü de ekle
+            state.permissions = action.payload.permissions;
         },
 
         logout: (state) => {

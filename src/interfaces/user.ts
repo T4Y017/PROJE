@@ -7,9 +7,21 @@ export default interface User {
     firmName: string;
     firmId: number;
     status: string;
-    role: string;
+    role: UserRole;
     birthdate: string;
     gender: string;
     known_language: string;
     password: number; // Optional for some operations
+    permissions: Permission[];
+}
+export enum UserRole {
+    Admin = "admin",
+    Gözlemci = "gözlemci",
+    User = "user",
+}
+
+export enum Permission {
+    Edit = "edit",
+    Delete = "delete",
+    AddUser = "addUser",
 }
