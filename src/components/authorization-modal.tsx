@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../store/Store";
 import {
@@ -6,6 +6,9 @@ import {
     giveAuthorization,
     setPermissions,
 } from "../slice/userTaskFormSlice";
+import { Permission } from "../interfaces/user";
+import { fetchUserData } from "../slice/userSlice";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
     userId: number | null;
@@ -19,32 +22,44 @@ export const AuthorizationModal = ({ userId }: Props) => {
     const selectedUser = userData?.find((u) => Number(u.id) === userId);
     console.log("selecteduser", selectedUser);
 
-    const handleSave = () => {
-        dispatch(
+    const [allPermissions, setAllPermissions] = useState<Permission[]>([]);
+    const [searchParams] = useSearchParams();
+    const page = searchParams.get("page")
+        ? Number(searchParams.get("page"))
+        : 1;
+    const handleSave = async () => {
+        await dispatch(
             giveAuthorization({
                 userId: Number(userId),
-                permissions: permissions,
+                permissions: allPermissions,
             })
         );
+        await dispatch(fetchUserData({ page }));
         dispatch(closeAuthorizationModal());
+    };
+
+    const togglePermission = (perm: Permission) => {
+        setAllPermissions((prev) => {
+            console.log(prev);
+            return prev.includes(perm)
+                ? prev.filter((it) => it !== perm)
+                : [...prev, perm];
+        });
     };
 
     useEffect(() => {
         if (selectedUser) {
-            dispatch(setPermissions(selectedUser.permissions));
+            console.log(selectedUser);
+            setAllPermissions(selectedUser.permissions);
         }
     }, [selectedUser, dispatch]);
-
-    const permissions = useSelector(
-        (state: AppState) => state.authorization.permissions
-    );
 
     return (
         <div className="new-modal-container">
             {selectedUser ? (
                 <div className="new-modal">
                     <div className="modal-header">
-                        <h3>Gözlemci Yetkileri</h3>
+                        <h3>Yetki Modalı</h3>
                         <button
                             className="close"
                             onClick={() => dispatch(closeAuthorizationModal())}
@@ -55,29 +70,17 @@ export const AuthorizationModal = ({ userId }: Props) => {
                     <label htmlFor="">
                         <input
                             type="checkbox"
-                            checked={permissions.edit}
-                            onChange={(e) =>
-                                dispatch(
-                                    setPermissions({
-                                        ...permissions,
-                                        edit: e.target.checked,
-                                    })
-                                )
-                            }
+                            checked={allPermissions.includes(Permission.Edit)}
+                            onChange={(e) => togglePermission(Permission.Edit)}
                         />
                         Editleme
                     </label>
                     <label htmlFor="">
                         <input
                             type="checkbox"
-                            checked={permissions.delete}
+                            checked={allPermissions.includes(Permission.Delete)}
                             onChange={(e) =>
-                                dispatch(
-                                    setPermissions({
-                                        ...permissions,
-                                        delete: e.target.checked,
-                                    })
-                                )
+                                togglePermission(Permission.Delete)
                             }
                         />
                         Silme
@@ -85,14 +88,11 @@ export const AuthorizationModal = ({ userId }: Props) => {
                     <label htmlFor="">
                         <input
                             type="checkbox"
-                            checked={permissions.addUser}
+                            checked={allPermissions.includes(
+                                Permission.AddUser
+                            )}
                             onChange={(e) =>
-                                dispatch(
-                                    setPermissions({
-                                        ...permissions,
-                                        addUser: e.target.checked,
-                                    })
-                                )
+                                togglePermission(Permission.AddUser)
                             }
                         />
                         Kullanıcı Ekleme

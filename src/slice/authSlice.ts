@@ -1,16 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import User from "../interfaces/user";
+import User, { Permission, UserRole } from "../interfaces/user";
 
 export const initialAuthState = {
     isAuthenticated: false,
     mail: "",
     password: "",
     role: "",
-    permissions: {
-        edit: false,
-        delete: false,
-        addUser: false,
-    },
+    permissions: [],
     authReady: false,
 };
 
@@ -18,12 +14,8 @@ export interface AuthState {
     isAuthenticated: boolean;
     mail: string;
     password: string;
-    role: string;
-    permissions: {
-        edit: boolean;
-        delete: boolean;
-        addUser: boolean;
-    };
+    role: UserRole;
+    permissions: Permission[];
     authReady: boolean;
 }
 

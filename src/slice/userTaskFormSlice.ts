@@ -1,27 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Permission } from "../interfaces/user";
 
 export const initialAuthorizationState: AuthorizationState = {
     isAuthorizationModalOpen: false,
     selectedUser: {
         userId: null,
     },
-    permissions: {
-        edit: false,
-        delete: false,
-        addUser: false,
-    },
+    permissions: [],
 };
 export interface AuthorizationState {
     isAuthorizationModalOpen: boolean;
     selectedUser: {
         userId: number | null;
     };
-    permissions: {
-        edit: boolean;
-        delete: boolean;
-        addUser: boolean;
-    };
+    permissions: Permission[];
 }
 
 export const authorizationSlice = createSlice({
@@ -31,7 +24,6 @@ export const authorizationSlice = createSlice({
         openAuthorizationModal: (state, action) => {
             state.isAuthorizationModalOpen = true;
             state.selectedUser.userId = action.payload;
-            state.permissions = action.payload;
         },
         closeAuthorizationModal: (state) => {
             state.isAuthorizationModalOpen = false;

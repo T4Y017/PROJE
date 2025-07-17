@@ -16,6 +16,7 @@ import { SearchBarUser } from "../components/search-bar-user";
 import { filterSearch } from "../state/utils";
 import { clearSearchQuery, setSearchQuery } from "../slice/searchUserSlice";
 import { logout } from "../slice/authSlice";
+import { Permission, UserRole } from "../interfaces/user";
 
 type Props = {};
 
@@ -49,9 +50,19 @@ const Users = (props: Props) => {
         dispatch(fetchFirmData({}));
         dispatch(openNewUserModal());
     };
-    const permissions = useSelector(
+    const userPermissions = useSelector(
         (state: AppState) => state.auth.permissions
     );
+    const hasAccess = (
+        userRole: UserRole,
+        permissions: Permission[]
+    ): boolean => {
+        return (
+            userRole === UserRole.Admin ||
+            userPermissions?.some((p) => permissions?.includes(p)) ||
+            false
+        );
+    };
     const handleLogout = async () => {
         await fetch("http://localhost:3000/api/logout", {
             method: "POST",
@@ -104,8 +115,7 @@ const Users = (props: Props) => {
                     <Spinner />
                 ) : loadUserTaskStatus?.type === "success" ? (
                     <>
-                        {(userRole === "admin" ||
-                            (userRole === "gözlemci" && data?.users)) && (
+                        {hasAccess(userRole, [Permission.AddUser]) && (
                             <button
                                 className="btn"
                                 onClick={handleNewUserModal}

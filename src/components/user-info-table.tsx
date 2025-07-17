@@ -1,5 +1,5 @@
 import "./user-info-table.css";
-import User from "../interfaces/user";
+import User, { Permission, UserRole } from "../interfaces/user";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState } from "../store/Store";
@@ -34,11 +34,9 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
     const selectedUserID = useSelector(
         (state: AppState) => state.authorization.selectedUser.userId
     );
-    const currentUserMail = useSelector((state: AppState) => state.auth.mail);
     const userPermissions = useSelector(
         (state: AppState) => state.auth.permissions
     );
-    const loggedInUser = emp.find((user) => user.mail === currentUserMail);
 
     const userRole = useSelector((state: AppState) => state.auth.role);
     const [searchParams] = useSearchParams();
@@ -48,7 +46,19 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
 
     useEffect(() => {
         dispatch(fetchFirmData({ page }));
-    }, []);
+    }, [page]);
+
+    const hasAccess = (
+        userRole: UserRole,
+        permissions: Permission[]
+    ): boolean => {
+        return (
+            userRole === UserRole.Admin ||
+            userPermissions?.some((p) => permissions?.includes(p)) ||
+            false
+        );
+    };
+    console.log(userPermissions);
     return (
         <div className="table-wrapper">
             <table className="table">
@@ -98,30 +108,32 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                                             Kullanıcı Detayı
                                         </button>
 
-                                        {(userRole === "admin" ||
-                                            userRole === "gözlemci") && (
+                                        {hasAccess(userRole, [
+                                            Permission.Edit,
+                                        ]) && (
                                             <>
-                                                {user.role === "gözlemci" &&
-                                                    userRole === "admin" && (
-                                                        <button
-                                                            className="firm"
-                                                            onClick={() => {
-                                                                console.log(
-                                                                    user.permissions
-                                                                );
-                                                                dispatch(
-                                                                    openAuthorizationModal(
-                                                                        user.id
-                                                                    )
-                                                                );
-                                                            }}
-                                                        >
-                                                            Görev Ata
-                                                        </button>
-                                                    )}
+                                                {userRole ===
+                                                    UserRole.Admin && (
+                                                    <button
+                                                        className="firm"
+                                                        onClick={() => {
+                                                            console.log(
+                                                                user.permissions
+                                                            );
+                                                            dispatch(
+                                                                openAuthorizationModal(
+                                                                    user.id
+                                                                )
+                                                            );
+                                                        }}
+                                                    >
+                                                        Yetki Ver
+                                                    </button>
+                                                )}
 
-                                                {(userRole === "admin" ||
-                                                    userPermissions?.edit) && (
+                                                {hasAccess(userRole, [
+                                                    Permission.Edit,
+                                                ]) && (
                                                     <button
                                                         className="btn-edit"
                                                         onClick={() =>
@@ -136,8 +148,9 @@ export const UserInfoTable: React.FC<UserInfoTableProps> = ({ emp }) => {
                                                     </button>
                                                 )}
 
-                                                {(userRole === "admin" ||
-                                                    userPermissions?.delete) && (
+                                                {hasAccess(userRole, [
+                                                    Permission.Delete,
+                                                ]) && (
                                                     <button
                                                         className="btn-delete"
                                                         onClick={() =>
