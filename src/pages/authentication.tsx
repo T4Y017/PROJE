@@ -30,17 +30,14 @@ export const Authentication = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const res = await fetch(
-            "http://expressjs-production-88cc.up.railway.app/api/login",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ mail, password }),
-                credentials: "include",
-            }
-        );
+        const res = await fetch("http://localhost:3000/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ mail, password }),
+            credentials: "include",
+        });
 
         const data = await res.json();
         //console.log(data.user, "auth user");
