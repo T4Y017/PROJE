@@ -31,7 +31,7 @@ export const Authentication = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const res = await fetch(
-            "http://expressjs-production-88cc.up.railway.app/api/login",
+            "https://expressjs-production-88cc.up.railway.app/api/login",
             {
                 method: "POST",
                 headers: {
