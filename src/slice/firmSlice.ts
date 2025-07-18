@@ -58,7 +58,9 @@ export const fetchAllFirms = () => async (dispatch: AppDispatch) => {
 export const fetchFirmData =
     ({ page, limit }: FetchFirmArgs) =>
     async (dispatch: AppDispatch) => {
-        const url = new URL("http://localhost:3000/api/firms");
+        const url = new URL(
+            "https://expressjs-production-88cc.up.railway.app/api/firms"
+        );
 
         if (page) url.searchParams.append("page", page.toString());
         if (limit) url.searchParams.append("limit", limit.toString());
