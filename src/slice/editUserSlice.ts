@@ -41,7 +41,7 @@ export const editUser =
     async (dispatch: AppDispatch) => {
         try {
             await axios.put(
-                `http://expressjs-production-88cc.up.railway.app/api/users/${id}`,
+                `https://expressjs-production-88cc.up.railway.app/api/users/${id}`,
                 userData
             );
             dispatch(setEditStatus({ type: "success" }));

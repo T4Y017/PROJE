@@ -41,7 +41,7 @@ export const editFirm =
     async (dispatch: AppDispatch) => {
         try {
             await axios.put(
-                `http://expressjs-production-88cc.up.railway.app/api/firms/${id}`,
+                `https://expressjs-production-88cc.up.railway.app/api/firms/${id}`,
                 firmData
             );
             dispatch(setEditStatus({ type: "success" }));

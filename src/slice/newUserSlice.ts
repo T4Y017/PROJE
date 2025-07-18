@@ -40,7 +40,7 @@ export const newUserSlice = createSlice({
 export const addNewUser = (newUserData) => async (dispatch: AppDispatch) => {
     try {
         await axios.post(
-            "http://expressjs-production-88cc.up.railway.app/api/users",
+            "https://expressjs-production-88cc.up.railway.app/api/users",
             newUserData
         );
         dispatch(setUserAddStatus({ type: "success" }));

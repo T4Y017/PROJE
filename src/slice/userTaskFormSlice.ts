@@ -39,9 +39,12 @@ export const giveAuthorization =
     ({ userId, permissions }: { userId: number; permissions }) =>
     async () => {
         try {
-            await axios.post(`http://localhost:3000/api/users/${userId}`, {
-                permissions,
-            });
+            await axios.post(
+                `https://expressjs-production-88cc.up.railway.app/api/users/${userId}`,
+                {
+                    permissions,
+                }
+            );
             return { payload: { type: "success" } };
         } catch (error) {
             return { payload: { type: "error" } };

@@ -43,7 +43,7 @@ export const firmSlice = createSlice({
 export const fetchAllFirms = () => async (dispatch: AppDispatch) => {
     try {
         const res = await fetch(
-            "http://expressjs-production-88cc.up.railway.app/api/firms"
+            "https://expressjs-production-88cc.up.railway.app/api/firms"
         );
         const data = await res.json();
         dispatch(setAllFirms(data.firms));

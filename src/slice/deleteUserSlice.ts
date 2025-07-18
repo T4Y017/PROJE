@@ -28,7 +28,7 @@ export const deleteUser =
     async () => {
         try {
             await axios.delete(
-                `http://expressjs-production-88cc.up.railway.app/api/users/${id}`
+                `https://expressjs-production-88cc.up.railway.app/api/users/${id}`
             );
             return { payload: { type: "success" } };
         } catch (error) {

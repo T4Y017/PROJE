@@ -30,7 +30,7 @@ export const deleteFirm =
     async () => {
         try {
             await axios.delete(
-                `http://expressjs-production-88cc.up.railway.app/api/firms/${firmId}`
+                `https://expressjs-production-88cc.up.railway.app/api/firms/${firmId}`
             );
             return { payload: { type: "success" } };
         } catch (error) {

@@ -54,7 +54,7 @@ export const fetchFirmDetailData =
     async (dispatch: AppDispatch) => {
         dispatch(setFirmTaskStatus({ type: "loading" }));
         const url = new URL(
-            "http://expressjs-production-88cc.up.railway.app/api/firms/" +
+            "https://expressjs-production-88cc.up.railway.app/api/firms/" +
                 firmId
         );
         try {

@@ -58,7 +58,7 @@ export const fetchUserData =
     ({ page, limit, firmidfilter, usernamefilter }: FetchUserArgs) =>
     async (dispatch: AppDispatch) => {
         const url = new URL(
-            "http://expressjs-production-88cc.up.railway.app/api/users"
+            "https://expressjs-production-88cc.up.railway.app/api/users"
         );
 
         if (page) url.searchParams.append("page", page.toString());

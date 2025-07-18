@@ -19,7 +19,7 @@ export const Register = () => {
             return;
         }
         const res = await fetch(
-            "http://expressjs-production-88cc.up.railway.app/api/register",
+            "https://expressjs-production-88cc.up.railway.app/api/register",
             {
                 method: "POST",
                 headers: {

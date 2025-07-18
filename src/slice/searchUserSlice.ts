@@ -26,7 +26,7 @@ export const search =
     ({ username }) =>
     async (dispatch: AppDispatch) => {
         const url = new URL(
-            "http://expressjs-production-88cc.up.railway.app/api/users"
+            "https://expressjs-production-88cc.up.railway.app/api/users"
         );
         if (username) url.searchParams.append("username", username);
         try {
