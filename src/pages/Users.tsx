@@ -65,7 +65,7 @@ const Users = (props: Props) => {
     };
     const handleLogout = async () => {
         await fetch(
-            "http://expressjs-production-88cc.up.railway.app/api/logout",
+            "https://expressjs-production-88cc.up.railway.app/api/logout",
             {
                 method: "POST",
                 credentials: "include", // important to send cookies!
