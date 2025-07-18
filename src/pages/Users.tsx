@@ -64,10 +64,13 @@ const Users = (props: Props) => {
         );
     };
     const handleLogout = async () => {
-        await fetch("http://localhost:3000/api/logout", {
-            method: "POST",
-            credentials: "include", // important to send cookies!
-        });
+        await fetch(
+            "http://expressjs-production-88cc.up.railway.app/api/logout",
+            {
+                method: "POST",
+                credentials: "include", // important to send cookies!
+            }
+        );
 
         dispatch(logout()); // reset Redux auth state
         localStorage.removeItem("accessToken"); // clear token

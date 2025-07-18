@@ -16,7 +16,7 @@ export const AuthLayout = (props: Props) => {
             try {
                 // Always attempt to refresh the session
                 const res = await fetch(
-                    "http://localhost:3000/api/refresh-token",
+                    "http://expressjs-production-88cc.up.railway.app/api/refresh-token",
                     {
                         method: "POST",
                         credentials: "include",

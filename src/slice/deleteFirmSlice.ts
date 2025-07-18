@@ -29,7 +29,9 @@ export const deleteFirm =
     ({ firmId }: { firmId: number }) =>
     async () => {
         try {
-            await axios.delete(`http://localhost:3000/api/firms/${firmId}`);
+            await axios.delete(
+                `http://expressjs-production-88cc.up.railway.app/api/firms/${firmId}`
+            );
             return { payload: { type: "success" } };
         } catch (error) {
             return { payload: { type: "error" } };

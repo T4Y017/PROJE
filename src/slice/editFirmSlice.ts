@@ -40,7 +40,10 @@ export const editFirm =
     ({ id, firmData }: { id: number; firmData: Partial<Firm> }) =>
     async (dispatch: AppDispatch) => {
         try {
-            await axios.put(`http://localhost:3000/api/firms/${id}`, firmData);
+            await axios.put(
+                `http://expressjs-production-88cc.up.railway.app/api/firms/${id}`,
+                firmData
+            );
             dispatch(setEditStatus({ type: "success" }));
         } catch (error) {
             dispatch(setEditStatus({ type: "error" }));

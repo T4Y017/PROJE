@@ -38,7 +38,10 @@ export const newFirmSlice = createSlice({
 
 export const addFirm = (newFirmData) => async (dispatch: AppDispatch) => {
     try {
-        axios.post("http://localhost:3000/api/firms", newFirmData);
+        axios.post(
+            "http://expressjs-production-88cc.up.railway.app/api/firms",
+            newFirmData
+        );
         dispatch(setIsFirmAdded({ type: "success" }));
         return { payload: { type: "success" } }; // <-- return eklendi
     } catch (error) {

@@ -39,7 +39,10 @@ export const newUserSlice = createSlice({
 
 export const addNewUser = (newUserData) => async (dispatch: AppDispatch) => {
     try {
-        await axios.post("http://localhost:3000/api/users", newUserData);
+        await axios.post(
+            "http://expressjs-production-88cc.up.railway.app/api/users",
+            newUserData
+        );
         dispatch(setUserAddStatus({ type: "success" }));
         return { payload: { type: "success" } }; // <-- return eklendi
     } catch (error) {

@@ -18,19 +18,22 @@ export const Register = () => {
             setError("Şifreler eşleşmiyor!");
             return;
         }
-        const res = await fetch("http://localhost:3000/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username,
-                surname,
-                mail,
-                password,
-                role,
-            }),
-        });
+        const res = await fetch(
+            "http://expressjs-production-88cc.up.railway.app/api/register",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username,
+                    surname,
+                    mail,
+                    password,
+                    role,
+                }),
+            }
+        );
         await res.json();
         alert("Kayıt başarılı!");
         navigate("/");

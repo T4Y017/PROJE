@@ -59,7 +59,10 @@ export const fetchUserDetailData =
     ({ userId }: FetchUserDetailArg) =>
     async (dispatch: AppDispatch) => {
         dispatch(setUserTaskStatus({ type: "loading" }));
-        const url = new URL("http://localhost:3000/api/users/" + userId);
+        const url = new URL(
+            "http://expressjs-production-88cc.up.railway.app/api/users/" +
+                userId
+        );
         try {
             const res = await fetch(url.toString());
             const data = await res.json();

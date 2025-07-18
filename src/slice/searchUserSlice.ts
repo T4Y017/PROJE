@@ -25,7 +25,9 @@ export const searchUserSlice = createSlice({
 export const search =
     ({ username }) =>
     async (dispatch: AppDispatch) => {
-        const url = new URL("http://localhost:3000/api/users");
+        const url = new URL(
+            "http://expressjs-production-88cc.up.railway.app/api/users"
+        );
         if (username) url.searchParams.append("username", username);
         try {
             const res = await fetch(url.toString());

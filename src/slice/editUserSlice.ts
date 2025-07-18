@@ -40,7 +40,10 @@ export const editUser =
     ({ id, userData }: { id: number; userData: Partial<User> }) =>
     async (dispatch: AppDispatch) => {
         try {
-            await axios.put(`http://localhost:3000/api/users/${id}`, userData);
+            await axios.put(
+                `http://expressjs-production-88cc.up.railway.app/api/users/${id}`,
+                userData
+            );
             dispatch(setEditStatus({ type: "success" }));
         } catch (error) {
             dispatch(setEditStatus({ type: "error" }));
