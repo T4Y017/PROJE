@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install -g serve
 
-COPY dist ./build
+COPY /dist ./build
 
 EXPOSE 4000
 
