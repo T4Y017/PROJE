@@ -57,7 +57,9 @@ export const userSlice = createSlice({
 export const fetchUserData =
     ({ page, limit, firmidfilter, usernamefilter }: FetchUserArgs) =>
     async (dispatch: AppDispatch) => {
-        const url = new URL("http://localhost:3000/api/users");
+        const url = new URL(
+            "http://expressjs-production-88cc.up.railway.app/api/users"
+        );
 
         if (page) url.searchParams.append("page", page.toString());
         if (limit) url.searchParams.append("limit", limit.toString());
